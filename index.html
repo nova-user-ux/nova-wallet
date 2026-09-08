@@ -9,431 +9,748 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: white;
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#fff;
   background:
-    radial-gradient(circle at 80% 0%, rgba(126, 45, 255, .35), transparent 32%),
-    radial-gradient(circle at 0% 50%, rgba(82, 25, 160, .25), transparent 35%),
+    radial-gradient(circle at 85% 0%,rgba(139,92,246,.35),transparent 32%),
+    radial-gradient(circle at 0% 50%,rgba(91,33,182,.22),transparent 35%),
     #07050d;
-  padding: 18px 16px 100px;
+  padding:18px 16px 105px;
 }
 
-.app {
-  width: 100%;
-  max-width: 520px;
-  margin: auto;
+button{
+  font-family:inherit;
 }
 
-/* HEADER */
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 4px 22px;
+.app{
+  width:100%;
+  max-width:520px;
+  margin:auto;
 }
 
-.logo {
-  font-size: 31px;
-  font-weight: 900;
-  letter-spacing: -1.5px;
+.screen{
+  display:none;
 }
 
-.logo span {
-  color: #a855f7;
+.screen.active{
+  display:block;
 }
 
-.profile {
-  width: 43px;
-  height: 43px;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(145deg, #8b5cf6, #5b21b6);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, .25);
-  font-size: 21px;
+
+/* =========================
+   WELCOME
+========================= */
+
+#welcome{
+  min-height:calc(100vh - 35px);
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
 
-/* BALANCE */
-
-.balance {
-  position: relative;
-  overflow: hidden;
-  padding: 25px;
-  border-radius: 27px;
-  margin-bottom: 18px;
-  background:
-    linear-gradient(145deg, rgba(132, 55, 255, .32), rgba(34, 14, 58, .75));
-  border: 1px solid rgba(168, 85, 247, .35);
-  box-shadow:
-    0 15px 45px rgba(82, 27, 140, .2),
-    inset 0 1px rgba(255,255,255,.08);
+#welcome.active{
+  display:flex;
 }
 
-.balance::after {
-  content: "";
-  position: absolute;
-  width: 160px;
-  height: 160px;
-  right: -70px;
-  top: -80px;
-  border-radius: 50%;
-  background: rgba(168, 85, 247, .22);
-  filter: blur(15px);
+.welcome-box{
+  width:100%;
+  padding:30px 22px;
+  text-align:center;
+  border-radius:30px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(168,85,247,.2);
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
 }
 
-.balance-label {
-  position: relative;
-  z-index: 2;
-  color: #c4b5d8;
-  font-size: 13px;
+.nova-logo{
+  font-size:43px;
+  font-weight:900;
+  letter-spacing:-2px;
 }
 
-.balance-value {
-  position: relative;
-  z-index: 2;
-  margin-top: 7px;
-  font-size: 38px;
-  font-weight: 900;
-  letter-spacing: -1px;
+.nova-logo span{
+  color:#a855f7;
 }
 
-.currency {
-  font-size: 16px;
-  color: #c084fc;
-  margin-left: 5px;
+.welcome-icon{
+  width:82px;
+  height:82px;
+  margin:0 auto 20px;
+  border-radius:27px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  background:linear-gradient(145deg,#a855f7,#5b21b6);
+  box-shadow:0 15px 40px rgba(139,92,246,.3);
 }
 
-/* QUICK BUTTONS */
-
-.quick {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 22px;
+.welcome-title{
+  margin-top:17px;
+  font-size:25px;
+  font-weight:900;
 }
 
-.quick button {
-  border: 1px solid rgba(168,85,247,.22);
-  border-radius: 17px;
-  padding: 14px;
-  color: white;
-  background: rgba(255,255,255,.055);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
+.welcome-text{
+  margin:10px auto 25px;
+  max-width:350px;
+  color:#9f93ad;
+  line-height:1.5;
+  font-size:14px;
 }
 
-.quick button:active {
-  transform: scale(.97);
-  background: rgba(168,85,247,.15);
+.input{
+  width:100%;
+  margin-top:10px;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);
+  outline:none;
+  background:rgba(255,255,255,.055);
+  color:#fff;
+  font-size:15px;
 }
 
-/* SECTION */
-
-.section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 5px 3px 12px;
+.input:focus{
+  border-color:#a855f7;
 }
 
-.section-heading h2 {
-  margin: 0;
-  font-size: 19px;
+.primary{
+  width:100%;
+  margin-top:14px;
+  padding:16px;
+  border:0;
+  border-radius:17px;
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  background:linear-gradient(135deg,#a855f7,#6d28d9);
+  box-shadow:0 10px 25px rgba(139,92,246,.22);
+  cursor:pointer;
 }
 
-.section-heading span {
-  color: #9d8bab;
-  font-size: 12px;
+.primary:active{
+  transform:scale(.98);
 }
 
-/* CARDS */
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 11px;
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 4px 22px;
 }
 
-.card {
-  min-height: 137px;
-  padding: 17px;
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,.07);
-  background: rgba(255,255,255,.045);
-  box-shadow: inset 0 1px rgba(255,255,255,.025);
-  cursor: pointer;
-  transition: .15s;
+.logo{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:-1.5px;
 }
 
-.card:active {
-  transform: scale(.96);
-  background: rgba(168,85,247,.12);
+.logo span{
+  color:#a855f7;
 }
 
-.icon {
-  font-size: 29px;
-  margin-bottom: 18px;
+.avatar{
+  width:43px;
+  height:43px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#a855f7,#5b21b6);
+  font-weight:900;
+  font-size:17px;
 }
 
-.card-title {
-  font-size: 15px;
-  font-weight: 800;
+
+/* =========================
+   BALANCE
+========================= */
+
+.balance{
+  position:relative;
+  overflow:hidden;
+  padding:25px;
+  border-radius:27px;
+  background:linear-gradient(145deg,rgba(132,55,255,.32),rgba(34,14,58,.78));
+  border:1px solid rgba(168,85,247,.32);
+  box-shadow:0 15px 45px rgba(82,27,140,.18);
 }
 
-.card-description {
-  margin-top: 4px;
-  color: #8f849d;
-  font-size: 11px;
+.balance-label{
+  color:#c5b9d2;
+  font-size:13px;
 }
 
-/* PAGES */
-
-.page {
-  display: none;
+.balance-value{
+  margin-top:7px;
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-1px;
 }
 
-.page.active {
-  display: block;
+.currency{
+  color:#c084fc;
+  font-size:16px;
 }
 
-.back {
-  border: 0;
-  color: #d8b4fe;
-  background: rgba(168,85,247,.1);
-  padding: 11px 15px;
-  border-radius: 14px;
-  font-weight: 700;
-  margin-bottom: 17px;
-  cursor: pointer;
+
+/* =========================
+   HOME CARDS
+========================= */
+
+.heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:22px 3px 12px;
 }
 
-.page-box {
-  padding: 21px;
-  border-radius: 24px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(168,85,247,.15);
+.heading h2{
+  margin:0;
+  font-size:19px;
 }
 
-.page-icon {
-  font-size: 45px;
+.heading span{
+  color:#85788f;
+  font-size:12px;
 }
 
-.page-title {
-  font-size: 26px;
-  font-weight: 900;
-  margin-top: 10px;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
 }
 
-.page-description {
-  color: #9d91aa;
-  line-height: 1.5;
-  margin-top: 7px;
-  font-size: 13px;
+.card{
+  min-height:130px;
+  padding:17px;
+  border-radius:22px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.07);
+  cursor:pointer;
+  transition:.15s;
 }
 
-/* PRODUCTS */
-
-.products {
-  margin-top: 18px;
-  display: grid;
-  gap: 10px;
+.card:active{
+  transform:scale(.96);
+  background:rgba(168,85,247,.13);
 }
 
-.product {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.06);
+.card-icon{
+  font-size:29px;
+  margin-bottom:18px;
 }
 
-.product-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.card-title{
+  font-size:15px;
+  font-weight:800;
 }
 
-.product-icon {
-  font-size: 30px;
+.card-description{
+  margin-top:4px;
+  color:#8f849d;
+  font-size:11px;
 }
 
-.product-name {
-  font-weight: 800;
-  font-size: 14px;
+
+/* =========================
+   PAGE
+========================= */
+
+.back{
+  border:0;
+  padding:11px 15px;
+  margin-bottom:16px;
+  border-radius:14px;
+  color:#d8b4fe;
+  background:rgba(168,85,247,.1);
+  font-weight:700;
+  cursor:pointer;
 }
 
-.product-price {
-  color: #b87cff;
-  font-size: 12px;
-  margin-top: 3px;
+.page-box{
+  padding:21px;
+  border-radius:25px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(168,85,247,.15);
 }
 
-.buy {
-  border: 0;
-  border-radius: 12px;
-  padding: 10px 13px;
-  background: linear-gradient(135deg, #a855f7, #6d28d9);
-  color: white;
-  font-weight: 800;
-  font-size: 12px;
-  cursor: pointer;
+.page-icon{
+  font-size:45px;
 }
 
-.buy:active {
-  transform: scale(.94);
+.page-title{
+  margin-top:8px;
+  font-size:26px;
+  font-weight:900;
 }
 
-/* BOTTOM MENU */
-
-.bottom {
-  position: fixed;
-  z-index: 100;
-  left: 50%;
-  bottom: 12px;
-  transform: translateX(-50%);
-  width: calc(100% - 24px);
-  max-width: 500px;
-  padding: 8px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  border-radius: 22px;
-  background: rgba(18, 11, 27, .92);
-  border: 1px solid rgba(168,85,247,.2);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 12px 40px rgba(0,0,0,.45);
+.page-description{
+  margin-top:7px;
+  color:#9d91aa;
+  line-height:1.5;
+  font-size:13px;
 }
 
-.nav {
-  border: 0;
-  padding: 9px 3px;
-  border-radius: 16px;
-  background: transparent;
-  color: #81758e;
-  font-size: 10px;
-  font-weight: 700;
-  cursor: pointer;
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.products{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
 }
 
-.nav-icon {
-  display: block;
-  font-size: 20px;
-  margin-bottom: 3px;
+.product{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.06);
 }
 
-.nav.active {
-  color: #d8b4fe;
-  background: rgba(168,85,247,.13);
+.product-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-/* TOAST */
-
-.toast {
-  position: fixed;
-  z-index: 200;
-  left: 50%;
-  bottom: 92px;
-  transform: translate(-50%, 20px);
-  opacity: 0;
-  pointer-events: none;
-  padding: 12px 17px;
-  border-radius: 15px;
-  background: #21132f;
-  border: 1px solid rgba(168,85,247,.3);
-  color: white;
-  font-size: 13px;
-  font-weight: 700;
-  transition: .25s;
-  white-space: nowrap;
+.product-icon{
+  font-size:30px;
 }
 
-.toast.show {
-  opacity: 1;
-  transform: translate(-50%, 0);
+.product-name{
+  font-size:14px;
+  font-weight:800;
+}
+
+.product-price{
+  margin-top:3px;
+  color:#b87cff;
+  font-size:12px;
+}
+
+.buy{
+  border:0;
+  padding:10px 13px;
+  border-radius:12px;
+  color:#fff;
+  background:linear-gradient(135deg,#a855f7,#6d28d9);
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-card{
+  padding:22px;
+  border-radius:25px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(168,85,247,.15);
+  text-align:center;
+}
+
+.big-avatar{
+  width:82px;
+  height:82px;
+  margin:auto;
+  border-radius:27px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#a855f7,#5b21b6);
+  font-size:30px;
+  font-weight:900;
+}
+
+.profile-name{
+  margin-top:12px;
+  font-size:22px;
+  font-weight:900;
+}
+
+.profile-username{
+  margin-top:4px;
+  color:#a855f7;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:20px;
+}
+
+.stat{
+  padding:13px 5px;
+  border-radius:16px;
+  background:rgba(255,255,255,.045);
+}
+
+.stat-number{
+  font-size:17px;
+  font-weight:900;
+}
+
+.stat-label{
+  margin-top:3px;
+  color:#81758e;
+  font-size:10px;
+}
+
+
+/* =========================
+   XP
+========================= */
+
+.xp-box{
+  margin-top:15px;
+  padding:16px;
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+}
+
+.xp-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:#a99bb5;
+}
+
+.xp-bar{
+  height:8px;
+  margin-top:9px;
+  border-radius:10px;
+  background:#21172b;
+  overflow:hidden;
+}
+
+.xp-fill{
+  height:100%;
+  width:0%;
+  border-radius:10px;
+  background:linear-gradient(90deg,#7c3aed,#c084fc);
+}
+
+
+/* =========================
+   INVENTORY
+========================= */
+
+.inventory{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:18px;
+}
+
+.item{
+  padding:20px 10px;
+  text-align:center;
+  border-radius:19px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.item-icon{
+  font-size:38px;
+}
+
+.item-name{
+  margin-top:8px;
+  font-size:13px;
+  font-weight:800;
+}
+
+.empty{
+  grid-column:1/-1;
+  padding:30px 10px;
+  text-align:center;
+  color:#85788f;
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history{
+  display:grid;
+  gap:9px;
+  margin-top:18px;
+}
+
+.history-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border-radius:17px;
+  background:rgba(255,255,255,.045);
+}
+
+.history-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.history-icon{
+  font-size:24px;
+}
+
+.history-name{
+  font-size:13px;
+  font-weight:700;
+}
+
+.history-date{
+  margin-top:3px;
+  color:#766b80;
+  font-size:10px;
+}
+
+.plus{
+  color:#86efac;
+  font-weight:800;
+}
+
+.minus{
+  color:#fca5a5;
+  font-weight:800;
+}
+
+
+/* =========================
+   BOTTOM
+========================= */
+
+.bottom{
+  position:fixed;
+  z-index:100;
+  left:50%;
+  bottom:11px;
+  transform:translateX(-50%);
+  width:calc(100% - 24px);
+  max-width:500px;
+  padding:8px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+  border-radius:23px;
+  background:rgba(18,11,27,.94);
+  border:1px solid rgba(168,85,247,.2);
+  backdrop-filter:blur(20px);
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
+}
+
+.nav{
+  border:0;
+  padding:9px 3px;
+  border-radius:16px;
+  background:transparent;
+  color:#81758e;
+  font-size:10px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.nav-icon{
+  display:block;
+  margin-bottom:3px;
+  font-size:20px;
+}
+
+.nav.active{
+  color:#d8b4fe;
+  background:rgba(168,85,247,.13);
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  z-index:200;
+  left:50%;
+  bottom:92px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  padding:12px 17px;
+  border-radius:15px;
+  background:#21132f;
+  border:1px solid rgba(168,85,247,.3);
+  font-size:13px;
+  font-weight:700;
+  transition:.25s;
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
 }
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-<!-- HOME -->
 
-<div id="home" class="page active">
+<!-- =========================
+     WELCOME / REGISTRATION
+========================= -->
 
-  <div class="header">
-    <div class="logo">NOVA<span>.</span></div>
-    <div class="profile">👤</div>
+<div id="welcome" class="screen">
+
+  <div class="welcome-box">
+
+    <div class="welcome-icon">🚀</div>
+
+    <div class="nova-logo">
+      NOVA<span>.</span>
+    </div>
+
+    <div class="welcome-title">
+      Добро пожаловать!
+    </div>
+
+    <div class="welcome-text">
+      Создай свой NOVA-профиль и получи доступ к Wallet,
+      Marketplace, Gifts и цифровым коллекциям.
+    </div>
+
+    <input
+      id="nameInput"
+      class="input"
+      type="text"
+      maxlength="20"
+      placeholder="Твоё имя"
+    >
+
+    <input
+      id="usernameInput"
+      class="input"
+      type="text"
+      maxlength="20"
+      placeholder="Username"
+    >
+
+    <button class="primary" onclick="register()">
+      ✨ Создать аккаунт
+    </button>
+
   </div>
 
+</div>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<div id="home" class="screen">
+
+  <div class="header">
+
+    <div class="logo">
+      NOVA<span>.</span>
+    </div>
+
+    <div class="avatar" id="headerAvatar">
+      N
+    </div>
+
+  </div>
+
+
   <div class="balance">
-    <div class="balance-label">Твой баланс</div>
+
+    <div class="balance-label">
+      Твой баланс
+    </div>
+
     <div class="balance-value">
       <span id="balance">1000.00</span>
       <span class="currency">NOVA</span>
     </div>
+
   </div>
 
-  <div class="quick">
-    <button onclick="openPage('wallet')">💰 Кошелёк</button>
-    <button onclick="openPage('stars')">⭐ Stars</button>
-  </div>
 
-  <div class="section-heading">
+  <div class="heading">
     <h2>Сервисы NOVA</h2>
     <span>6 разделов</span>
   </div>
 
+
   <div class="grid">
 
     <div class="card" onclick="openPage('messenger')">
-      <div class="icon">💬</div>
+      <div class="card-icon">💬</div>
       <div class="card-title">Messenger</div>
       <div class="card-description">Общение</div>
     </div>
 
     <div class="card" onclick="openPage('marketplace')">
-      <div class="icon">🛍️</div>
+      <div class="card-icon">🛍️</div>
       <div class="card-title">Marketplace</div>
       <div class="card-description">Магазин</div>
     </div>
 
     <div class="card" onclick="openPage('gifts')">
-      <div class="icon">🎁</div>
+      <div class="card-icon">🎁</div>
       <div class="card-title">Gifts</div>
       <div class="card-description">Подарки</div>
     </div>
 
     <div class="card" onclick="openPage('stars')">
-      <div class="icon">⭐</div>
+      <div class="card-icon">⭐</div>
       <div class="card-title">Stars</div>
-      <div class="card-description">Telegram Stars</div>
+      <div class="card-description">Stars</div>
     </div>
 
     <div class="card" onclick="openPage('collectibles')">
-      <div class="icon">💎</div>
+      <div class="card-icon">💎</div>
       <div class="card-title">Collectibles</div>
       <div class="card-description">Коллекции</div>
     </div>
 
-    <div class="card" onclick="openPage('wallet')">
-      <div class="icon">💰</div>
-      <div class="card-title">Wallet</div>
-      <div class="card-description">Финансы</div>
+    <div class="card" onclick="openPage('history')">
+      <div class="card-icon">🕐</div>
+      <div class="card-title">История</div>
+      <div class="card-description">Операции</div>
     </div>
 
   </div>
@@ -441,55 +758,140 @@ body {
 </div>
 
 
-<!-- CONTENT -->
+<!-- =========================
+     CONTENT
+========================= -->
 
-<div id="content" class="page">
+<div id="content" class="screen">
 
-  <button class="back" onclick="goHome()">← Назад</button>
+  <button class="back" onclick="goHome()">
+    ← Назад
+  </button>
 
   <div class="page-box">
 
-    <div class="page-icon" id="pageIcon">🛍️</div>
+    <div class="page-icon" id="pageIcon">
+      🛍️
+    </div>
 
     <div class="page-title" id="pageTitle">
       Marketplace
     </div>
 
     <div class="page-description" id="pageDescription">
-      Покупай цифровые товары в экосистеме NOVA.
+      Покупки
     </div>
 
     <div id="products" class="products"></div>
+
+    <div id="inventory" class="inventory"></div>
+
+    <div id="history" class="history"></div>
 
   </div>
 
 </div>
 
+
+<!-- =========================
+     PROFILE
+========================= -->
+
+<div id="profile" class="screen">
+
+  <button class="back" onclick="goHome()">
+    ← Назад
+  </button>
+
+  <div class="profile-card">
+
+    <div class="big-avatar" id="profileAvatar">
+      N
+    </div>
+
+    <div class="profile-name" id="profileName">
+      Name
+    </div>
+
+    <div class="profile-username" id="profileUsername">
+      @username
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-number" id="statBalance">
+          0
+        </div>
+        <div class="stat-label">
+          NOVA
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="statItems">
+          0
+        </div>
+        <div class="stat-label">
+          Предметов
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="statLevel">
+          1
+        </div>
+        <div class="stat-label">
+          Уровень
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="xp-box">
+
+      <div class="xp-head">
+        <span>Уровень <b id="levelText">1</b></span>
+        <span><b id="xpText">0</b> XP</span>
+      </div>
+
+      <div class="xp-bar">
+        <div id="xpFill" class="xp-fill"></div>
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 
-<!-- BOTTOM NAV -->
+<!-- =========================
+     BOTTOM MENU
+========================= -->
 
 <div class="bottom">
 
-  <button class="nav active" onclick="goHome(); setActive(this)">
+  <button class="nav active" onclick="goHome();activeNav(this)">
     <span class="nav-icon">⌂</span>
     Главная
   </button>
 
-  <button class="nav" onclick="openPage('marketplace'); setActive(this)">
+  <button class="nav" onclick="openPage('marketplace');activeNav(this)">
     <span class="nav-icon">🛍️</span>
     Магазин
   </button>
 
-  <button class="nav" onclick="openPage('gifts'); setActive(this)">
-    <span class="nav-icon">🎁</span>
-    Gifts
+  <button class="nav" onclick="openInventory();activeNav(this)">
+    <span class="nav-icon">🎒</span>
+    Инвентарь
   </button>
 
-  <button class="nav" onclick="openPage('wallet'); setActive(this)">
-    <span class="nav-icon">💰</span>
-    Wallet
+  <button class="nav" onclick="openProfile();activeNav(this)">
+    <span class="nav-icon">👤</span>
+    Профиль
   </button>
 
 </div>
@@ -500,171 +902,375 @@ body {
 
 <script>
 
+/* =========================
+   TELEGRAM
+========================= */
+
 const tg = window.Telegram.WebApp;
 
 tg.ready();
 tg.expand();
 
 
-/* BALANCE */
+/* =========================
+   DATA
+========================= */
 
-let balance = Number(localStorage.getItem("nova_balance"));
+let user = JSON.parse(localStorage.getItem("nova_user") || "null");
 
-if (isNaN(balance)) {
+let balance = Number(
+  localStorage.getItem("nova_balance")
+);
+
+if(isNaN(balance)){
   balance = 1000;
-  localStorage.setItem("nova_balance", balance);
 }
 
-updateBalance();
+let inventory = JSON.parse(
+  localStorage.getItem("nova_inventory") || "[]"
+);
+
+let historyData = JSON.parse(
+  localStorage.getItem("nova_history") || "[]"
+);
+
+let xp = Number(
+  localStorage.getItem("nova_xp") || "0"
+);
 
 
-function updateBalance() {
-  document.getElementById("balance").textContent =
-    balance.toFixed(2);
+/* =========================
+   START
+========================= */
+
+if(!user){
+
+  showScreen("welcome");
+
+}else{
+
+  showScreen("home");
+  updateUI();
+
 }
 
 
-/* PAGES */
+/* =========================
+   REGISTER
+========================= */
+
+function register(){
+
+  const name =
+    document.getElementById("nameInput").value.trim();
+
+  let username =
+    document.getElementById("usernameInput").value.trim();
+
+  if(!name){
+
+    showToast("Введите имя");
+
+    return;
+  }
+
+  if(!username){
+
+    showToast("Введите Username");
+
+    return;
+  }
+
+
+  username = username.replace("@","");
+
+  if(username.length < 3){
+
+    showToast("Username должен быть длиннее");
+
+    return;
+  }
+
+
+  user = {
+
+    name:name,
+
+    username:username,
+
+    id:"NOVA-" + Math.floor(
+      100000 + Math.random()*900000
+    ),
+
+    createdAt:new Date().toLocaleDateString("ru-RU")
+
+  };
+
+
+  localStorage.setItem(
+    "nova_user",
+    JSON.stringify(user)
+  );
+
+  localStorage.setItem(
+    "nova_balance",
+    balance
+  );
+
+
+  showToast("🎉 Аккаунт создан!");
+
+  setTimeout(()=>{
+
+    showScreen("home");
+    updateUI();
+
+  },700);
+
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function updateUI(){
+
+  if(!user) return;
+
+
+  document.getElementById("balance")
+    .textContent = balance.toFixed(2);
+
+
+  const letter =
+    user.name.charAt(0).toUpperCase();
+
+
+  document.getElementById("headerAvatar")
+    .textContent = letter;
+
+  document.getElementById("profileAvatar")
+    .textContent = letter;
+
+
+  document.getElementById("profileName")
+    .textContent = user.name;
+
+  document.getElementById("profileUsername")
+    .textContent = "@" + user.username;
+
+
+  document.getElementById("statBalance")
+    .textContent = balance.toFixed(0);
+
+  document.getElementById("statItems")
+    .textContent = inventory.length;
+
+
+  const level =
+    Math.floor(xp / 100) + 1;
+
+  const currentXP =
+    xp % 100;
+
+
+  document.getElementById("statLevel")
+    .textContent = level;
+
+  document.getElementById("levelText")
+    .textContent = level;
+
+  document.getElementById("xpText")
+    .textContent = xp;
+
+  document.getElementById("xpFill")
+    .style.width = currentXP + "%";
+
+}
+
+
+/* =========================
+   SCREENS
+========================= */
+
+function showScreen(id){
+
+  document.querySelectorAll(".screen")
+    .forEach(el => el.classList.remove("active"));
+
+  document.getElementById(id)
+    .classList.add("active");
+
+}
+
+
+/* =========================
+   PAGES
+========================= */
 
 const pages = {
 
-  messenger: {
-    icon: "💬",
-    title: "Messenger",
-    description: "Общайся с пользователями NOVA. Здесь появится полноценный Messenger.",
-    products: []
+  messenger:{
+    icon:"💬",
+    title:"Messenger",
+    description:"Общайся с пользователями NOVA.",
+    products:[]
   },
 
-  marketplace: {
-    icon: "🛍️",
-    title: "Marketplace",
-    description: "Покупай цифровые товары внутри экосистемы NOVA.",
-    products: [
-      ["🎨", "NOVA Avatar", 50],
-      ["✨", "Premium Badge", 150],
-      ["🚀", "Rocket Pack", 250],
-      ["💜", "Purple Theme", 500]
+  marketplace:{
+    icon:"🛍️",
+    title:"Marketplace",
+    description:"Покупай цифровые предметы за NOVA.",
+    products:[
+      ["🎨","NOVA Avatar",50],
+      ["✨","Premium Badge",150],
+      ["🚀","Rocket Pack",250],
+      ["💜","Purple Theme",500]
     ]
   },
 
-  gifts: {
-    icon: "🎁",
-    title: "Gifts",
-    description: "Выбирай подарок и отправляй его пользователю.",
-    products: [
-      ["🌹", "Rose", 25],
-      ["💜", "Purple Heart", 75],
-      ["🎂", "Birthday Gift", 150],
-      ["🚀", "Rocket Gift", 300]
+  gifts:{
+    icon:"🎁",
+    title:"Gifts",
+    description:"Покупай цифровые подарки.",
+    products:[
+      ["🌹","Rose",25],
+      ["💜","Purple Heart",75],
+      ["🎂","Birthday Gift",150],
+      ["🚀","Rocket Gift",300]
     ]
   },
 
-  stars: {
-    icon: "⭐",
-    title: "Stars",
-    description: "Раздел Stars. Здесь можно будет работать со Stars внутри NOVA.",
-    products: [
-      ["⭐", "10 Stars", 10],
-      ["⭐", "50 Stars", 45],
-      ["⭐", "100 Stars", 80],
-      ["🌟", "500 Stars", 350]
+  stars:{
+    icon:"⭐",
+    title:"Stars",
+    description:"Внутренняя система Stars NOVA.",
+    products:[
+      ["⭐","10 Stars",10],
+      ["⭐","50 Stars",45],
+      ["⭐","100 Stars",80],
+      ["🌟","500 Stars",350]
     ]
   },
 
-  collectibles: {
-    icon: "💎",
-    title: "Collectibles",
-    description: "Цифровые коллекционные предметы NOVA.",
-    products: [
-      ["💎", "NOVA Diamond", 400],
-      ["👑", "Golden Crown", 750],
-      ["🐉", "NOVA Dragon", 1200],
-      ["🪐", "Galaxy", 2000]
-    ]
-  },
-
-  wallet: {
-    icon: "💰",
-    title: "Wallet",
-    description: "Управляй своим балансом NOVA.",
-    products: [
-      ["💳", "Пополнить +100 NOVA", -100],
-      ["💳", "Пополнить +500 NOVA", -500],
-      ["💳", "Пополнить +1000 NOVA", -1000]
+  collectibles:{
+    icon:"💎",
+    title:"Collectibles",
+    description:"Редкие цифровые предметы NOVA.",
+    products:[
+      ["💎","NOVA Diamond",400],
+      ["👑","Golden Crown",750],
+      ["🐉","NOVA Dragon",1200],
+      ["🪐","Galaxy",2000]
     ]
   }
 
 };
 
 
-/* OPEN PAGE */
+/* =========================
+   OPEN PAGE
+========================= */
 
-function openPage(name) {
+function openPage(name){
 
   const page = pages[name];
 
-  if (!page) return;
+  if(!page) return;
 
-  document.getElementById("home").classList.remove("active");
-  document.getElementById("content").classList.add("active");
 
-  document.getElementById("pageIcon").textContent = page.icon;
-  document.getElementById("pageTitle").textContent = page.title;
-  document.getElementById("pageDescription").textContent = page.description;
+  showScreen("content");
+
+
+  document.getElementById("pageIcon")
+    .textContent = page.icon;
+
+  document.getElementById("pageTitle")
+    .textContent = page.title;
+
+  document.getElementById("pageDescription")
+    .textContent = page.description;
+
+
+  document.getElementById("inventory")
+    .innerHTML = "";
+
+  document.getElementById("history")
+    .innerHTML = "";
+
 
   renderProducts(page.products);
 
-  window.scrollTo(0, 0);
+
+  window.scrollTo(0,0);
 
   haptic();
 
 }
 
 
-/* PRODUCTS */
+/* =========================
+   PRODUCTS
+========================= */
 
-function renderProducts(products) {
+function renderProducts(products){
 
-  const container = document.getElementById("products");
+  const container =
+    document.getElementById("products");
 
   container.innerHTML = "";
 
-  products.forEach((item) => {
+
+  products.forEach(item=>{
 
     const icon = item[0];
     const name = item[1];
     const price = item[2];
 
-    const div = document.createElement("div");
+
+    const div =
+      document.createElement("div");
 
     div.className = "product";
 
-    let priceText;
-
-    if (price < 0) {
-      priceText = "+" + Math.abs(price) + " NOVA";
-    } else {
-      priceText = price + " NOVA";
-    }
 
     div.innerHTML = `
+
       <div class="product-left">
-        <div class="product-icon">${icon}</div>
+
+        <div class="product-icon">
+          ${icon}
+        </div>
 
         <div>
-          <div class="product-name">${name}</div>
-          <div class="product-price">${priceText}</div>
+
+          <div class="product-name">
+            ${name}
+          </div>
+
+          <div class="product-price">
+            ${price} NOVA
+          </div>
+
         </div>
+
       </div>
 
       <button class="buy">
-        ${price < 0 ? "Пополнить" : "Купить"}
+        Купить
       </button>
+
     `;
 
-    div.querySelector(".buy").onclick = function() {
-      buyItem(name, price);
-    };
+
+    div.querySelector(".buy")
+      .onclick = ()=>buyItem(
+        name,
+        icon,
+        price
+      );
+
 
     container.appendChild(div);
 
@@ -673,33 +1279,15 @@ function renderProducts(products) {
 }
 
 
-/* BUY */
+/* =========================
+   BUY
+========================= */
 
-function buyItem(name, price) {
+function buyItem(name,icon,price){
 
-  if (price < 0) {
-
-    balance += Math.abs(price);
-
-    localStorage.setItem("nova_balance", balance);
-
-    updateBalance();
-
-    showToast("💜 Баланс пополнен");
-
-    haptic();
-
-    return;
-  }
-
-
-  if (balance < price) {
+  if(balance < price){
 
     showToast("❌ Недостаточно NOVA");
-
-    if (tg.showAlert) {
-      tg.showAlert("Недостаточно NOVA для покупки.");
-    }
 
     return;
   }
@@ -707,66 +1295,314 @@ function buyItem(name, price) {
 
   balance -= price;
 
-  localStorage.setItem("nova_balance", balance);
 
-  updateBalance();
+  inventory.push({
 
-  showToast("✅ Покупка совершена");
+    name:name,
+
+    icon:icon,
+
+    date:new Date().toLocaleDateString("ru-RU")
+
+  });
+
+
+  historyData.unshift({
+
+    name:"Покупка: " + name,
+
+    icon:icon,
+
+    amount:-price,
+
+    date:new Date().toLocaleString("ru-RU")
+
+  });
+
+
+  xp += 25;
+
+
+  saveData();
+
+  updateUI();
+
+
+  showToast("✅ Предмет добавлен в инвентарь");
 
   haptic();
 
 }
 
 
-/* HOME */
+/* =========================
+   INVENTORY
+========================= */
 
-function goHome() {
+function openInventory(){
 
-  document.getElementById("content").classList.remove("active");
-  document.getElementById("home").classList.add("active");
+  showScreen("content");
 
-  window.scrollTo(0, 0);
+
+  document.getElementById("pageIcon")
+    .textContent = "🎒";
+
+  document.getElementById("pageTitle")
+    .textContent = "Инвентарь";
+
+  document.getElementById("pageDescription")
+    .textContent =
+    "Все приобретённые тобой предметы.";
+
+
+  document.getElementById("products")
+    .innerHTML = "";
+
+  document.getElementById("history")
+    .innerHTML = "";
+
+
+  const container =
+    document.getElementById("inventory");
+
+  container.innerHTML = "";
+
+
+  if(inventory.length === 0){
+
+    container.innerHTML = `
+      <div class="empty">
+        🎒<br><br>
+        Инвентарь пока пуст
+      </div>
+    `;
+
+    return;
+  }
+
+
+  inventory.forEach(item=>{
+
+    container.innerHTML += `
+
+      <div class="item">
+
+        <div class="item-icon">
+          ${item.icon}
+        </div>
+
+        <div class="item-name">
+          ${item.name}
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function openProfile(){
+
+  showScreen("profile");
+
+  updateUI();
+
+  window.scrollTo(0,0);
 
   haptic();
 
 }
 
 
-/* HAPTIC */
+/* =========================
+   HISTORY
+========================= */
 
-function haptic() {
+function openHistory(){
 
-  if (tg.HapticFeedback) {
-    tg.HapticFeedback.impactOccurred("light");
+  showScreen("content");
+
+
+  document.getElementById("pageIcon")
+    .textContent="🕐";
+
+  document.getElementById("pageTitle")
+    .textContent="История";
+
+  document.getElementById("pageDescription")
+    .textContent="История твоих операций.";
+
+
+  document.getElementById("products")
+    .innerHTML="";
+
+  document.getElementById("inventory")
+    .innerHTML="";
+
+
+  const container =
+    document.getElementById("history");
+
+  container.innerHTML="";
+
+
+  if(historyData.length===0){
+
+    container.innerHTML=`
+      <div class="empty">
+        🕐<br><br>
+        История пока пустая
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  historyData.forEach(item=>{
+
+    container.innerHTML += `
+
+      <div class="history-item">
+
+        <div class="history-left">
+
+          <div class="history-icon">
+            ${item.icon}
+          </div>
+
+          <div>
+
+            <div class="history-name">
+              ${item.name}
+            </div>
+
+            <div class="history-date">
+              ${item.date}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="minus">
+          ${item.amount} NOVA
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function goHome(){
+
+  showScreen("home");
+
+  updateUI();
+
+  window.scrollTo(0,0);
+
+  haptic();
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveData(){
+
+  localStorage.setItem(
+    "nova_balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "nova_inventory",
+    JSON.stringify(inventory)
+  );
+
+  localStorage.setItem(
+    "nova_history",
+    JSON.stringify(historyData)
+  );
+
+  localStorage.setItem(
+    "nova_xp",
+    xp
+  );
+
+}
+
+
+/* =========================
+   NAV
+========================= */
+
+function activeNav(button){
+
+  document.querySelectorAll(".nav")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+}
+
+
+/* =========================
+   HAPTIC
+========================= */
+
+function haptic(){
+
+  if(tg.HapticFeedback){
+
+    tg.HapticFeedback
+      .impactOccurred("light");
+
   }
 
 }
 
 
-/* TOAST */
+/* =========================
+   TOAST
+========================= */
 
-function showToast(text) {
+function showToast(text){
 
-  const toast = document.getElementById("toast");
+  const toast =
+    document.getElementById("toast");
 
-  toast.textContent = text;
+  toast.textContent=text;
+
   toast.classList.add("show");
 
-  setTimeout(() => {
+
+  setTimeout(()=>{
+
     toast.classList.remove("show");
-  }, 1800);
 
-}
-
-
-/* NAV */
-
-function setActive(button) {
-
-  document.querySelectorAll(".nav")
-    .forEach(btn => btn.classList.remove("active"));
-
-  button.classList.add("active");
+  },1800);
 
 }
 
