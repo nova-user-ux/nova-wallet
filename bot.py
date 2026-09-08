@@ -1,40 +1,57 @@
-import asyncio
 import os
+import asyncio
 
-from aiogram import Bot, Dispatcher, Router
+from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import (
+    Message,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    WebAppInfo,
+)
 
-router = Router()
+TOKEN = os.getenv("BOT_TOKEN")
+
+WEB_APP_URL = "https://nova-user-ux.github.io/nova-wallet/"
+
+dp = Dispatcher()
 
 
-@router.message(CommandStart())
+@dp.message(CommandStart())
 async def start_handler(message: Message):
+    text = """🚀 Добро пожаловать в NOVA Wallet!
+
+Твоя цифровая экосистема в одном месте.
+
+💬 Messenger
+🛍 Marketplace
+🎁 Gifts
+⭐ Stars
+💎 Digital Collectibles
+💰 Wallet"""
+
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🚀 Play",
+                    web_app=WebAppInfo(url=WEB_APP_URL)
+                )
+            ]
+        ]
+    )
+
     await message.answer(
-        "🚀 <b>Добро пожаловать в NOVA Wallet!</b>\n\n"
-        "Твоя цифровая экосистема в одном месте.\n\n"
-        "💬 Messenger\n"
-        "🛍 Marketplace\n"
-        "🎁 Gifts\n"
-        "⭐ Stars\n"
-        "💎 Digital Collectibles\n"
-        "💰 Wallet",
-        parse_mode="HTML",
+        text,
+        reply_markup=keyboard
     )
 
 
 async def main():
-    token = os.getenv("BOT_TOKEN")
+    if not TOKEN:
+        raise RuntimeError("BOT_TOKEN is not set")
 
-    if not token:
-        raise RuntimeError("Не задан BOT_TOKEN")
-
-    bot = Bot(token=token)
-
-    dp = Dispatcher()
-    dp.include_router(router)
-
-    print("NOVA Bot запущен")
+    bot = Bot(TOKEN)
 
     await dp.start_polling(bot)
 
