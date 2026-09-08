@@ -2,181 +2,875 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>NOVA Wallet</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  min-height:100%;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:#fff;
-  background:
-    radial-gradient(circle at 85% 0%,rgba(139,92,246,.35),transparent 32%),
-    radial-gradient(circle at 0% 50%,rgba(91,33,182,.22),transparent 35%),
-    #07050d;
-  padding:18px 16px 105px;
+    margin:0;
+    background:#07070b;
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 button{
-  font-family:inherit;
+    font-family:inherit;
 }
 
 .app{
-  width:100%;
-  max-width:520px;
-  margin:auto;
+    max-width:600px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:90px;
 }
 
-.screen{
-  display:none;
-}
-
-.screen.active{
-  display:block;
-}
-
-
-/* =========================
-   WELCOME
-========================= */
-
-#welcome{
-  min-height:calc(100vh - 35px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-#welcome.active{
-  display:flex;
-}
-
-.welcome-box{
-  width:100%;
-  padding:30px 22px;
-  text-align:center;
-  border-radius:30px;
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(168,85,247,.2);
-  box-shadow:0 20px 60px rgba(0,0,0,.4);
-}
-
-.nova-logo{
-  font-size:43px;
-  font-weight:900;
-  letter-spacing:-2px;
-}
-
-.nova-logo span{
-  color:#a855f7;
-}
-
-.welcome-icon{
-  width:82px;
-  height:82px;
-  margin:0 auto 20px;
-  border-radius:27px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
-  background:linear-gradient(145deg,#a855f7,#5b21b6);
-  box-shadow:0 15px 40px rgba(139,92,246,.3);
-}
-
-.welcome-title{
-  margin-top:17px;
-  font-size:25px;
-  font-weight:900;
-}
-
-.welcome-text{
-  margin:10px auto 25px;
-  max-width:350px;
-  color:#9f93ad;
-  line-height:1.5;
-  font-size:14px;
-}
-
-.input{
-  width:100%;
-  margin-top:10px;
-  padding:16px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-  outline:none;
-  background:rgba(255,255,255,.055);
-  color:#fff;
-  font-size:15px;
-}
-
-.input:focus{
-  border-color:#a855f7;
-}
-
-.primary{
-  width:100%;
-  margin-top:14px;
-  padding:16px;
-  border:0;
-  border-radius:17px;
-  color:#fff;
-  font-size:15px;
-  font-weight:800;
-  background:linear-gradient(135deg,#a855f7,#6d28d9);
-  box-shadow:0 10px 25px rgba(139,92,246,.22);
-  cursor:pointer;
-}
-
-.primary:active{
-  transform:scale(.98);
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 4px 22px;
+header{
+    padding:25px 20px 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .logo{
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:-1.5px;
+    font-size:28px;
+    font-weight:900;
+    letter-spacing:1px;
 }
 
 .logo span{
-  color:#a855f7;
+    color:#9b5cff;
+}
+
+.balance{
+    background:linear-gradient(135deg,#17131f,#241537);
+    border:1px solid #37234e;
+    padding:10px 14px;
+    border-radius:16px;
+    text-align:right;
+}
+
+.balance small{
+    display:block;
+    color:#999;
+    font-size:10px;
+}
+
+.balance strong{
+    color:#c58cff;
+    font-size:15px;
+}
+
+.page{
+    display:none;
+    padding:10px 16px;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    background:
+    radial-gradient(circle at top right,#6428a8 0%,transparent 45%),
+    linear-gradient(135deg,#111019,#0c0b10);
+    border:1px solid #28202f;
+    border-radius:25px;
+    padding:25px;
+    margin:10px 0 18px;
+}
+
+.hero h1{
+    margin:0 0 8px;
+    font-size:27px;
+}
+
+.hero p{
+    color:#aaa;
+    margin:0;
+}
+
+.section-title{
+    font-size:20px;
+    font-weight:800;
+    margin:25px 3px 12px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.card{
+    background:#111116;
+    border:1px solid #24242c;
+    border-radius:19px;
+    padding:17px;
+    min-height:115px;
+    transition:.15s;
+}
+
+.card:active{
+    transform:scale(.97);
+}
+
+.card-icon{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.card-title{
+    font-weight:800;
+    font-size:15px;
+}
+
+.card-desc{
+    color:#85858e;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.market-controls{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:5px;
+}
+
+.market-controls button{
+    flex-shrink:0;
+    border:1px solid #2d2537;
+    background:#111116;
+    color:#aaa;
+    border-radius:13px;
+    padding:9px 13px;
+}
+
+.market-controls button.active{
+    background:#7c3fc4;
+    color:#fff;
+    border-color:#a25bea;
+}
+
+.market{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.product{
+    background:#111116;
+    border:1px solid #25252e;
+    border-radius:19px;
+    padding:14px;
+    display:flex;
+    gap:13px;
+    align-items:center;
+}
+
+.product-icon{
+    width:55px;
+    height:55px;
+    border-radius:16px;
+    background:#1c1625;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:27px;
+    flex-shrink:0;
+}
+
+.product-info{
+    flex:1;
+    min-width:0;
+}
+
+.product-name{
+    font-weight:800;
+    font-size:14px;
+}
+
+.product-category{
+    color:#777;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.product-price{
+    color:#c38aff;
+    font-weight:800;
+    margin-top:7px;
+}
+
+.product-change{
+    font-size:10px;
+    margin-top:2px;
+}
+
+.up{
+    color:#43dc86;
+}
+
+.down{
+    color:#ff5964;
+}
+
+.buy{
+    border:0;
+    background:linear-gradient(135deg,#7d3fc4,#a354e8);
+    color:#fff;
+    border-radius:13px;
+    padding:10px 13px;
+    font-weight:800;
+}
+
+.sell{
+    border:0;
+    background:#211a29;
+    color:#c58cff;
+    border-radius:12px;
+    padding:9px 12px;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(600px,100%);
+    background:rgba(10,10,14,.94);
+    backdrop-filter:blur(20px);
+    border-top:1px solid #25232c;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    padding:10px 8px calc(10px + env(safe-area-inset-bottom));
+    z-index:100;
+}
+
+.nav-btn{
+    background:none;
+    border:0;
+    color:#777;
+    font-size:11px;
+}
+
+.nav-btn div{
+    font-size:22px;
+    margin-bottom:3px;
+}
+
+.nav-btn.active{
+    color:#b86dff;
+}
+
+.profile-box{
+    background:#111116;
+    border:1px solid #282832;
+    border-radius:23px;
+    padding:20px;
 }
 
 .avatar{
-  width:43px;
-  height:43px;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(145deg,#a855f7,#5b21b6);
-  font-weight:900;
-  font-size:17px;
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6e35a5,#bc69ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    font-weight:900;
+    margin-bottom:15px;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.stat{
+    background:#18181e;
+    padding:14px;
+    border-radius:15px;
+}
+
+.stat small{
+    color:#777;
+}
+
+.stat strong{
+    display:block;
+    margin-top:5px;
+}
+
+.inventory-item{
+    background:#111116;
+    border:1px solid #25252c;
+    border-radius:18px;
+    padding:14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:50px 15px;
+}
+
+.negative{
+    color:#ff5964!important;
+}
+
+.positive{
+    color:#43dc86!important;
+}
+
+.market-status{
+    padding:12px 15px;
+    background:#111116;
+    border:1px solid #27272f;
+    border-radius:15px;
+    margin:12px 0;
+    color:#999;
+    font-size:12px;
+}
+
+.refresh-dot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    background:#43dc86;
+    border-radius:50%;
+    margin-right:6px;
+}
+
+.registration{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
+
+.register-box{
+    width:100%;
+    max-width:500px;
+    background:#111116;
+    border:1px solid #2c2435;
+    border-radius:28px;
+    padding:28px;
+}
+
+.register-box h1{
+    font-size:32px;
+}
+
+.input{
+    width:100%;
+    background:#19191f;
+    border:1px solid #30303a;
+    color:white;
+    padding:15px;
+    border-radius:14px;
+    margin:7px 0;
+    outline:none;
+}
+
+.main-button{
+    width:100%;
+    border:0;
+    padding:15px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#793dc0,#a653e8);
+    color:white;
+    font-weight:800;
+    font-size:15px;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="registration" class="registration">
+    <div class="register-box">
+        <div class="logo">NO<span>VA</span></div>
+
+        <h1>Добро пожаловать 👋</h1>
+
+        <p style="color:#999">
+            Создай свой профиль в NOVA Wallet
+            и начни торговать на рынке.
+        </p>
+
+        <input id="regName"
+               class="input"
+               placeholder="Твоё имя">
+
+        <input id="regUsername"
+               class="input"
+               placeholder="@username">
+
+        <button class="main-button" onclick="register()">
+            Создать профиль 🚀
+        </button>
+    </div>
+</div>
+
+
+<div id="app" class="app" style="display:none">
+
+<header>
+    <div class="logo">NO<span>VA</span></div>
+
+    <div class="balance">
+        <small>BALANCE</small>
+        <strong id="headerBalance">1500 NOVA</strong>
+    </div>
+</header>
+
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+    <div class="hero">
+        <h1>Привет, <span id="homeName">User</span> 👋</h1>
+        <p>Твоя цифровая экосистема в одном месте.</p>
+    </div>
+
+    <div class="section-title">NOVA Ecosystem</div>
+
+    <div class="grid">
+
+        <div class="card" onclick="openPage('marketplace')">
+            <div class="card-icon">🛍</div>
+            <div class="card-title">Marketplace</div>
+            <div class="card-desc">Покупай и продавай предметы</div>
+        </div>
+
+        <div class="card" onclick="openPage('gifts')">
+            <div class="card-icon">🎁</div>
+            <div class="card-title">Gifts</div>
+            <div class="card-desc">Коллекционные подарки</div>
+        </div>
+
+        <div class="card" onclick="openPage('stars')">
+            <div class="card-icon">⭐</div>
+            <div class="card-title">Stars</div>
+            <div class="card-desc">NOVA Stars</div>
+        </div>
+
+        <div class="card" onclick="openPage('collectibles')">
+            <div class="card-icon">💎</div>
+            <div class="card-title">Collectibles</div>
+            <div class="card-desc">Редкие цифровые предметы</div>
+        </div>
+
+        <div class="card" onclick="openPage('inventory')">
+            <div class="card-icon">📦</div>
+            <div class="card-title">Inventory</div>
+            <div class="card-desc">Твои предметы</div>
+        </div>
+
+        <div class="card" onclick="openPage('profile')">
+            <div class="card-icon">👤</div>
+            <div class="card-title">Profile</div>
+            <div class="card-desc">Твой NOVA ID</div>
+        </div>
+
+    </div>
+
+    <div class="section-title">Market Status</div>
+
+    <div class="market-status">
+        <span class="refresh-dot"></span>
+        Рынок активен · цены меняются автоматически
+    </div>
+
+</section>
+
+
+<!-- MARKETPLACE -->
+<section id="marketplace" class="page">
+
+    <div class="section-title">🛍 Marketplace</div>
+
+    <div class="market-controls">
+        <button class="active" onclick="filterMarket('all',this)">Все</button>
+        <button onclick="filterMarket('electronics',this)">📱 Tech</button>
+        <button onclick="filterMarket('fashion',this)">👕 Fashion</button>
+        <button onclick="filterMarket('cars',this)">🚗 Cars</button>
+        <button onclick="filterMarket('gaming',this)">🎮 Gaming</button>
+        <button onclick="filterMarket('luxury',this)">💎 Luxury</button>
+    </div>
+
+    <div class="market-status">
+        🔄 Обновление рынка каждые <b>30 секунд</b>
+    </div>
+
+    <div id="marketList" class="market"></div>
+
+</section>
+
+
+<!-- GIFTS -->
+<section id="gifts" class="page">
+
+    <div class="section-title">🎁 Gifts</div>
+
+    <div id="giftsList" class="market"></div>
+
+</section>
+
+
+<!-- STARS -->
+<section id="stars" class="page">
+
+    <div class="section-title">⭐ Stars</div>
+
+    <div id="starsList" class="market"></div>
+
+</section>
+
+
+<!-- COLLECTIBLES -->
+<section id="collectibles" class="page">
+
+    <div class="section-title">💎 Digital Collectibles</div>
+
+    <div id="collectiblesList" class="market"></div>
+
+</section>
+
+
+<!-- INVENTORY -->
+<section id="inventory" class="page">
+
+    <div class="section-title">📦 Inventory</div>
+
+    <div id="inventoryList"></div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+
+    <div class="section-title">👤 Profile</div>
+
+    <div class="profile-box">
+
+        <div class="avatar" id="avatar">
+            N
+        </div>
+
+        <h2 id="profileName">User</h2>
+
+        <p id="profileUsername" style="color:#888">@user</p>
+
+        <p style="color:#777;font-size:12px">
+            NOVA ID: <span id="novaId"></span>
+        </p>
+
+        <div class="stat-grid">
+
+            <div class="stat">
+                <small>Balance</small>
+                <strong id="profileBalance">1500 NOVA</strong>
+            </div>
+
+            <div class="stat">
+                <small>Items</small>
+                <strong id="itemCount">0</strong>
+            </div>
+
+            <div class="stat">
+                <small>Level</small>
+                <strong id="level">1</strong>
+            </div>
+
+            <div class="stat">
+                <small>XP</small>
+                <strong id="xp">0</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+
+    <button class="nav-btn active" onclick="openPage('home')">
+        <div>⌂</div>
+        Home
+    </button>
+
+    <button class="nav-btn" onclick="openPage('marketplace')">
+        <div>🛍</div>
+        Market
+    </button>
+
+    <button class="nav-btn" onclick="openPage('inventory')">
+        <div>📦</div>
+        Inventory
+    </button>
+
+    <button class="nav-btn" onclick="openPage('profile')">
+        <div>👤</div>
+        Profile
+    </button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+const tg = window.Telegram?.WebApp;
+
+if(tg){
+    tg.ready();
+    tg.expand();
+}
+
+
+/* =========================
+   DATA
+========================= */
+
+const products = [
+
+    ["iPhone 17 Pro Max","📱","electronics",850],
+    ["iPhone 17 Pro","📱","electronics",760],
+    ["iPhone 17","📱","electronics",650],
+    ["iPhone 16 Pro Max","📱","electronics",590],
+    ["iPhone 16 Pro","📱","electronics",520],
+    ["iPhone 16","📱","electronics",450],
+
+    ["Galaxy S26 Ultra","📱","electronics",780],
+    ["Galaxy S26+","📱","electronics",620],
+    ["Galaxy S26","📱","electronics",510],
+
+    ["MacBook Pro M5","💻","electronics",1200],
+    ["MacBook Air M4","💻","electronics",850],
+    ["iPad Pro M5","📱","electronics",700],
+    ["iPad Air","📱","electronics",480],
+
+    ["AirPods Pro 3","🎧","electronics",210],
+    ["AirPods Max","🎧","electronics",340],
+    ["Sony WH-1000XM6","🎧","electronics",290],
+    ["PlayStation 5 Pro","🎮","gaming",650],
+    ["Xbox Series X","🎮","gaming",450],
+    ["Nintendo Switch 2","🎮","gaming",500],
+
+    ["Nike Air Jordan 1","👟","fashion",280],
+    ["Nike Air Max","👟","fashion",190],
+    ["Adidas Yeezy","👟","fashion",310],
+    ["New Balance 9060","👟","fashion",170],
+    ["Stone Island Jacket","🧥","fashion",430],
+    ["Moncler Jacket","🧥","luxury",850],
+    ["Supreme Hoodie","👕","fashion",350],
+
+    ["BMW M5 F90","🚗","cars",1100],
+    ["BMW M4 Competition","🚗","cars",1050],
+    ["Mercedes AMG GT","🚗","cars",1300],
+    ["Mercedes CLA 45 AMG","🚗","cars",900],
+    ["Audi RS7","🚗","cars",1200],
+    ["Porsche 911","🚗","cars",1400],
+
+    ["Rolex Submariner","⌚","luxury",1300],
+    ["Rolex Daytona","⌚","luxury",1500],
+    ["Cartier Santos","⌚","luxury",950],
+    ["Richard Mille RM","⌚","luxury",2000],
+    ["Louis Vuitton Bag","👜","luxury",700],
+    ["Gucci Bag","👜","luxury",500],
+    ["Prada Bag","👜","luxury",450],
+
+    ["PS5 Limited Edition","🎮","gaming",800],
+    ["Gaming PC RTX","🖥","gaming",1100],
+    ["Steam Deck OLED","🎮","gaming",400],
+    ["Meta Quest 4","🥽","gaming",550],
+    ["Gaming Chair","🪑","gaming",250],
+
+    ["Apple Vision Pro","🥽","electronics",1400],
+    ["DJI Drone","🚁","electronics",600],
+    ["GoPro Hero","📷","electronics",320],
+    ["Canon Camera","📷","electronics",700],
+
+    ["Chrome Hearts Hoodie","👕","luxury",600],
+    ["Balenciaga Sneakers","👟","luxury",520],
+    ["Dior Sneakers","👟","luxury",650],
+    ["Off-White Jacket","🧥","fashion",490]
+
+];
+
+
+/* =========================
+   EXTRA GIFTS
+========================= */
+
+const gifts = [
+    ["Rose Gift","🌹",30],
+    ["Heart Gift","❤️",45],
+    ["Diamond Gift","💎",120],
+    ["Golden Rose","🌹",250],
+    ["Luxury Box","🎁",400],
+    ["NOVA Rocket","🚀",600],
+    ["Golden Trophy","🏆",750],
+    ["Galaxy Gift","🌌",900],
+    ["Royal Crown","👑",1100],
+    ["Black Diamond","🖤",1500],
+    ["NOVA Dragon","🐉",2000],
+    ["Legendary Star","🌟",2500]
+];
+
+
+/* =========================
+   STARS
+========================= */
+
+const stars = [
+    ["50 Stars","⭐",25],
+    ["100 Stars","⭐",45],
+    ["250 Stars","⭐",100],
+    ["500 Stars","⭐",190],
+    ["1000 Stars","⭐",350],
+    ["2500 Stars","⭐",800],
+    ["5000 Stars","⭐",1450],
+    ["10000 Stars","⭐",2700]
+];
+
+
+/* =========================
+   COLLECTIBLES
+========================= */
+
+const collectibles = [
+    ["NOVA #001","💎",400],
+    ["NOVA #002","💎",500],
+    ["NOVA #003","💎",650],
+    ["Purple Dragon","🐉",900],
+    ["Golden Cat","🐈",750],
+    ["Cyber Skull","💀",1100],
+    ["Galaxy Ape","🦍",1400],
+    ["NOVA Crown","👑",1800],
+    ["Black Phantom","👻",2200],
+    ["Legendary NOVA","🌌",3000],
+    ["Diamond King","💎",5000],
+    ["NOVA Genesis","🚀",10000]
+];
+
+
+/* =========================
+   STORAGE
+========================= */
+
+let balance = Number(localStorage.getItem("nova_balance"));
+
+if(!localStorage.getItem("nova_balance")){
+    balance = 1500;
+    localStorage.setItem("nova_balance",balance);
+}
+
+let inventory = JSON.parse(
+    localStorage.getItem("nova_inventory") || "[]"
+);
+
+let user = JSON.parse(
+    localStorage.getItem("nova_user") || "null"
+);
+
+let xp = Number(
+    localStorage.getItem("nova_xp") || 0
+);
+
+let marketPrices = JSON.parse(
+    localStorage.getItem("nova_prices") || "{}"
+);
+
+
+/* =========================
+   REGISTRATION
+========================= */
+
+function register(){
+
+    const name =
+        document.getElementById("regName").value.trim();
+
+    const username =
+        document.getElementById("regUsername").value.trim();
+
+    if(!name){
+        alert("Введи имя");
+        return;
+    }
+
+    user = {
+        name:name,
+        username:username || "@user",
+        id:"NOVA-" + Math.floor(100000 + Math.random()*900000),
+        createdAt:new Date().toLocaleDateString("ru-RU")
+    };
+
+    localStorage.setItem(
+        "nova_user",
+        JSON.stringify(user)
+    );
+
+    showApp();
+}
+
+
+/* =========================
+   APP START
+========================= */
+
+function showApp(){
+
+    document.getElementById("registration").style.display="none";
+    document.getElementById("app").style.display="block";
+
+    document.getElementById("homeName").textContent=user.name;
+
+    document.getElementById("profileName").textContent=user.name;
+
+    document.getElementById("profileUsername").textContent=user.username;
+
+    document.getElementById("novaId").textContent=user.id;
+
+    document.getElementById("avatar").textContent=
+        user.name.charAt(0).toUpperCase();
+
+    updateBalance();
+    updateProfile();
+    renderMarket();
+    renderGifts();
+    renderStars();
+    renderCollectibles();
+    renderInventory();
+}
+
+
+if(user){
+    showApp();
 }
 
 
@@ -184,1098 +878,201 @@ button{
    BALANCE
 ========================= */
 
-.balance{
-  position:relative;
-  overflow:hidden;
-  padding:25px;
-  border-radius:27px;
-  background:linear-gradient(145deg,rgba(132,55,255,.32),rgba(34,14,58,.78));
-  border:1px solid rgba(168,85,247,.32);
-  box-shadow:0 15px 45px rgba(82,27,140,.18);
-}
+function updateBalance(){
 
-.balance-label{
-  color:#c5b9d2;
-  font-size:13px;
-}
+    const text =
+        balance.toLocaleString("ru-RU") + " NOVA";
 
-.balance-value{
-  margin-top:7px;
-  font-size:38px;
-  font-weight:900;
-  letter-spacing:-1px;
-}
+    document.getElementById("headerBalance").textContent=text;
 
-.currency{
-  color:#c084fc;
-  font-size:16px;
+    document.getElementById("profileBalance").textContent=text;
+
+    document.getElementById("headerBalance").className =
+        balance < 0 ? "negative" : "positive";
 }
 
 
 /* =========================
-   HOME CARDS
+   NAVIGATION
 ========================= */
 
-.heading{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:22px 3px 12px;
-}
+function openPage(page){
 
-.heading h2{
-  margin:0;
-  font-size:19px;
-}
+    document.querySelectorAll(".page")
+        .forEach(x=>x.classList.remove("active"));
 
-.heading span{
-  color:#85788f;
-  font-size:12px;
-}
+    const target =
+        document.getElementById(page);
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:11px;
-}
+    if(target){
+        target.classList.add("active");
+    }
 
-.card{
-  min-height:130px;
-  padding:17px;
-  border-radius:22px;
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(255,255,255,.07);
-  cursor:pointer;
-  transition:.15s;
-}
+    document.querySelectorAll(".nav-btn")
+        .forEach(x=>x.classList.remove("active"));
 
-.card:active{
-  transform:scale(.96);
-  background:rgba(168,85,247,.13);
-}
+    window.scrollTo(0,0);
 
-.card-icon{
-  font-size:29px;
-  margin-bottom:18px;
-}
+    if(page==="marketplace"){
+        renderMarket();
+    }
 
-.card-title{
-  font-size:15px;
-  font-weight:800;
-}
+    if(page==="inventory"){
+        renderInventory();
+    }
 
-.card-description{
-  margin-top:4px;
-  color:#8f849d;
-  font-size:11px;
+    if(page==="profile"){
+        updateProfile();
+    }
 }
 
 
 /* =========================
-   PAGE
+   MARKET PRICE ENGINE
 ========================= */
 
-.back{
-  border:0;
-  padding:11px 15px;
-  margin-bottom:16px;
-  border-radius:14px;
-  color:#d8b4fe;
-  background:rgba(168,85,247,.1);
-  font-weight:700;
-  cursor:pointer;
+function getPrice(index,base){
+
+    if(marketPrices[index] === undefined){
+
+        marketPrices[index] =
+            Math.round(
+                base *
+                (0.85 + Math.random()*0.3)
+            );
+    }
+
+    return marketPrices[index];
 }
 
-.page-box{
-  padding:21px;
-  border-radius:25px;
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(168,85,247,.15);
-}
 
-.page-icon{
-  font-size:45px;
-}
+function updateMarketPrices(){
 
-.page-title{
-  margin-top:8px;
-  font-size:26px;
-  font-weight:900;
-}
+    products.forEach((item,index)=>{
 
-.page-description{
-  margin-top:7px;
-  color:#9d91aa;
-  line-height:1.5;
-  font-size:13px;
+        const base=item[3];
+
+        let current=getPrice(index,base);
+
+        const movement =
+            (Math.random()-0.5)*0.22;
+
+        current =
+            Math.round(
+                current*(1+movement)
+            );
+
+        current=Math.max(
+            5,
+            current
+        );
+
+        marketPrices[index]=current;
+    });
+
+    localStorage.setItem(
+        "nova_prices",
+        JSON.stringify(marketPrices)
+    );
+
+    renderMarket();
 }
 
 
 /* =========================
-   PRODUCTS
+   MARKET
 ========================= */
 
-.products{
-  display:grid;
-  gap:10px;
-  margin-top:18px;
-}
+let currentFilter="all";
 
-.product{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px;
-  border-radius:18px;
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(255,255,255,.06);
-}
+function filterMarket(category,button){
 
-.product-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+    currentFilter=category;
 
-.product-icon{
-  font-size:30px;
-}
+    document.querySelectorAll(".market-controls button")
+        .forEach(x=>x.classList.remove("active"));
 
-.product-name{
-  font-size:14px;
-  font-weight:800;
-}
+    button.classList.add("active");
 
-.product-price{
-  margin-top:3px;
-  color:#b87cff;
-  font-size:12px;
-}
-
-.buy{
-  border:0;
-  padding:10px 13px;
-  border-radius:12px;
-  color:#fff;
-  background:linear-gradient(135deg,#a855f7,#6d28d9);
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
+    renderMarket();
 }
 
 
-/* =========================
-   PROFILE
-========================= */
+function renderMarket(){
 
-.profile-card{
-  padding:22px;
-  border-radius:25px;
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(168,85,247,.15);
-  text-align:center;
-}
+    const list=
+        document.getElementById("marketList");
 
-.big-avatar{
-  width:82px;
-  height:82px;
-  margin:auto;
-  border-radius:27px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(145deg,#a855f7,#5b21b6);
-  font-size:30px;
-  font-weight:900;
-}
+    if(!list) return;
 
-.profile-name{
-  margin-top:12px;
-  font-size:22px;
-  font-weight:900;
-}
+    list.innerHTML="";
 
-.profile-username{
-  margin-top:4px;
-  color:#a855f7;
-}
+    products.forEach((item,index)=>{
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:20px;
-}
+        const name=item[0];
+        const icon=item[1];
+        const category=item[2];
+        const base=item[3];
 
-.stat{
-  padding:13px 5px;
-  border-radius:16px;
-  background:rgba(255,255,255,.045);
-}
+        if(
+            currentFilter!=="all" &&
+            category!==currentFilter
+        ) return;
 
-.stat-number{
-  font-size:17px;
-  font-weight:900;
-}
+        const price=getPrice(index,base);
 
-.stat-label{
-  margin-top:3px;
-  color:#81758e;
-  font-size:10px;
-}
+        const oldPrice=
+            marketPrices[index+"_old"] || price;
 
+        let difference =
+            ((price-oldPrice)/oldPrice)*100;
 
-/* =========================
-   XP
-========================= */
+        let cls=
+            difference>=0 ? "up" : "down";
 
-.xp-box{
-  margin-top:15px;
-  padding:16px;
-  border-radius:18px;
-  background:rgba(255,255,255,.045);
-}
+        let symbol=
+            difference>=0 ? "▲" : "▼";
 
-.xp-head{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:#a99bb5;
-}
+        list.innerHTML+=`
 
-.xp-bar{
-  height:8px;
-  margin-top:9px;
-  border-radius:10px;
-  background:#21172b;
-  overflow:hidden;
-}
+        <div class="product">
 
-.xp-fill{
-  height:100%;
-  width:0%;
-  border-radius:10px;
-  background:linear-gradient(90deg,#7c3aed,#c084fc);
-}
+            <div class="product-icon">
+                ${icon}
+            </div>
 
+            <div class="product-info">
 
-/* =========================
-   INVENTORY
-========================= */
+                <div class="product-name">
+                    ${name}
+                </div>
 
-.inventory{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:18px;
-}
+                <div class="product-category">
+                    ${category.toUpperCase()}
+                </div>
 
-.item{
-  padding:20px 10px;
-  text-align:center;
-  border-radius:19px;
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(255,255,255,.06);
-}
+                <div class="product-price">
+                    ${price.toLocaleString()} NOVA
+                </div>
 
-.item-icon{
-  font-size:38px;
-}
+                <div class="product-change ${cls}">
+                    ${symbol} ${Math.abs(difference).toFixed(1)}%
+                </div>
 
-.item-name{
-  margin-top:8px;
-  font-size:13px;
-  font-weight:800;
-}
+            </div>
 
-.empty{
-  grid-column:1/-1;
-  padding:30px 10px;
-  text-align:center;
-  color:#85788f;
-}
-
-
-/* =========================
-   HISTORY
-========================= */
-
-.history{
-  display:grid;
-  gap:9px;
-  margin-top:18px;
-}
-
-.history-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px;
-  border-radius:17px;
-  background:rgba(255,255,255,.045);
-}
-
-.history-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.history-icon{
-  font-size:24px;
-}
-
-.history-name{
-  font-size:13px;
-  font-weight:700;
-}
-
-.history-date{
-  margin-top:3px;
-  color:#766b80;
-  font-size:10px;
-}
-
-.plus{
-  color:#86efac;
-  font-weight:800;
-}
-
-.minus{
-  color:#fca5a5;
-  font-weight:800;
-}
-
-
-/* =========================
-   BOTTOM
-========================= */
-
-.bottom{
-  position:fixed;
-  z-index:100;
-  left:50%;
-  bottom:11px;
-  transform:translateX(-50%);
-  width:calc(100% - 24px);
-  max-width:500px;
-  padding:8px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:4px;
-  border-radius:23px;
-  background:rgba(18,11,27,.94);
-  border:1px solid rgba(168,85,247,.2);
-  backdrop-filter:blur(20px);
-  box-shadow:0 12px 40px rgba(0,0,0,.45);
-}
-
-.nav{
-  border:0;
-  padding:9px 3px;
-  border-radius:16px;
-  background:transparent;
-  color:#81758e;
-  font-size:10px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.nav-icon{
-  display:block;
-  margin-bottom:3px;
-  font-size:20px;
-}
-
-.nav.active{
-  color:#d8b4fe;
-  background:rgba(168,85,247,.13);
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-  position:fixed;
-  z-index:200;
-  left:50%;
-  bottom:92px;
-  transform:translate(-50%,20px);
-  opacity:0;
-  padding:12px 17px;
-  border-radius:15px;
-  background:#21132f;
-  border:1px solid rgba(168,85,247,.3);
-  font-size:13px;
-  font-weight:700;
-  transition:.25s;
-  pointer-events:none;
-  white-space:nowrap;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-</style>
-</head>
-
-
-<body>
-
-<div class="app">
-
-
-<!-- =========================
-     WELCOME / REGISTRATION
-========================= -->
-
-<div id="welcome" class="screen">
-
-  <div class="welcome-box">
-
-    <div class="welcome-icon">🚀</div>
-
-    <div class="nova-logo">
-      NOVA<span>.</span>
-    </div>
-
-    <div class="welcome-title">
-      Добро пожаловать!
-    </div>
-
-    <div class="welcome-text">
-      Создай свой NOVA-профиль и получи доступ к Wallet,
-      Marketplace, Gifts и цифровым коллекциям.
-    </div>
-
-    <input
-      id="nameInput"
-      class="input"
-      type="text"
-      maxlength="20"
-      placeholder="Твоё имя"
-    >
-
-    <input
-      id="usernameInput"
-      class="input"
-      type="text"
-      maxlength="20"
-      placeholder="Username"
-    >
-
-    <button class="primary" onclick="register()">
-      ✨ Создать аккаунт
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     HOME
-========================= -->
-
-<div id="home" class="screen">
-
-  <div class="header">
-
-    <div class="logo">
-      NOVA<span>.</span>
-    </div>
-
-    <div class="avatar" id="headerAvatar">
-      N
-    </div>
-
-  </div>
-
-
-  <div class="balance">
-
-    <div class="balance-label">
-      Твой баланс
-    </div>
-
-    <div class="balance-value">
-      <span id="balance">1000.00</span>
-      <span class="currency">NOVA</span>
-    </div>
-
-  </div>
-
-
-  <div class="heading">
-    <h2>Сервисы NOVA</h2>
-    <span>6 разделов</span>
-  </div>
-
-
-  <div class="grid">
-
-    <div class="card" onclick="openPage('messenger')">
-      <div class="card-icon">💬</div>
-      <div class="card-title">Messenger</div>
-      <div class="card-description">Общение</div>
-    </div>
-
-    <div class="card" onclick="openPage('marketplace')">
-      <div class="card-icon">🛍️</div>
-      <div class="card-title">Marketplace</div>
-      <div class="card-description">Магазин</div>
-    </div>
-
-    <div class="card" onclick="openPage('gifts')">
-      <div class="card-icon">🎁</div>
-      <div class="card-title">Gifts</div>
-      <div class="card-description">Подарки</div>
-    </div>
-
-    <div class="card" onclick="openPage('stars')">
-      <div class="card-icon">⭐</div>
-      <div class="card-title">Stars</div>
-      <div class="card-description">Stars</div>
-    </div>
-
-    <div class="card" onclick="openPage('collectibles')">
-      <div class="card-icon">💎</div>
-      <div class="card-title">Collectibles</div>
-      <div class="card-description">Коллекции</div>
-    </div>
-
-    <div class="card" onclick="openPage('history')">
-      <div class="card-icon">🕐</div>
-      <div class="card-title">История</div>
-      <div class="card-description">Операции</div>
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     CONTENT
-========================= -->
-
-<div id="content" class="screen">
-
-  <button class="back" onclick="goHome()">
-    ← Назад
-  </button>
-
-  <div class="page-box">
-
-    <div class="page-icon" id="pageIcon">
-      🛍️
-    </div>
-
-    <div class="page-title" id="pageTitle">
-      Marketplace
-    </div>
-
-    <div class="page-description" id="pageDescription">
-      Покупки
-    </div>
-
-    <div id="products" class="products"></div>
-
-    <div id="inventory" class="inventory"></div>
-
-    <div id="history" class="history"></div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     PROFILE
-========================= -->
-
-<div id="profile" class="screen">
-
-  <button class="back" onclick="goHome()">
-    ← Назад
-  </button>
-
-  <div class="profile-card">
-
-    <div class="big-avatar" id="profileAvatar">
-      N
-    </div>
-
-    <div class="profile-name" id="profileName">
-      Name
-    </div>
-
-    <div class="profile-username" id="profileUsername">
-      @username
-    </div>
-
-
-    <div class="stats">
-
-      <div class="stat">
-        <div class="stat-number" id="statBalance">
-          0
-        </div>
-        <div class="stat-label">
-          NOVA
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number" id="statItems">
-          0
-        </div>
-        <div class="stat-label">
-          Предметов
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number" id="statLevel">
-          1
-        </div>
-        <div class="stat-label">
-          Уровень
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="xp-box">
-
-      <div class="xp-head">
-        <span>Уровень <b id="levelText">1</b></span>
-        <span><b id="xpText">0</b> XP</span>
-      </div>
-
-      <div class="xp-bar">
-        <div id="xpFill" class="xp-fill"></div>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     BOTTOM MENU
-========================= -->
-
-<div class="bottom">
-
-  <button class="nav active" onclick="goHome();activeNav(this)">
-    <span class="nav-icon">⌂</span>
-    Главная
-  </button>
-
-  <button class="nav" onclick="openPage('marketplace');activeNav(this)">
-    <span class="nav-icon">🛍️</span>
-    Магазин
-  </button>
-
-  <button class="nav" onclick="openInventory();activeNav(this)">
-    <span class="nav-icon">🎒</span>
-    Инвентарь
-  </button>
-
-  <button class="nav" onclick="openProfile();activeNav(this)">
-    <span class="nav-icon">👤</span>
-    Профиль
-  </button>
-
-</div>
-
-
-<div id="toast" class="toast"></div>
-
-
-<script>
-
-/* =========================
-   TELEGRAM
-========================= */
-
-const tg = window.Telegram.WebApp;
-
-tg.ready();
-tg.expand();
-
-
-/* =========================
-   DATA
-========================= */
-
-let user = JSON.parse(localStorage.getItem("nova_user") || "null");
-
-let balance = Number(
-  localStorage.getItem("nova_balance")
-);
-
-if(isNaN(balance)){
-  balance = 1000;
-}
-
-let inventory = JSON.parse(
-  localStorage.getItem("nova_inventory") || "[]"
-);
-
-let historyData = JSON.parse(
-  localStorage.getItem("nova_history") || "[]"
-);
-
-let xp = Number(
-  localStorage.getItem("nova_xp") || "0"
-);
-
-
-/* =========================
-   START
-========================= */
-
-if(!user){
-
-  showScreen("welcome");
-
-}else{
-
-  showScreen("home");
-  updateUI();
-
-}
-
-
-/* =========================
-   REGISTER
-========================= */
-
-function register(){
-
-  const name =
-    document.getElementById("nameInput").value.trim();
-
-  let username =
-    document.getElementById("usernameInput").value.trim();
-
-  if(!name){
-
-    showToast("Введите имя");
-
-    return;
-  }
-
-  if(!username){
-
-    showToast("Введите Username");
-
-    return;
-  }
-
-
-  username = username.replace("@","");
-
-  if(username.length < 3){
-
-    showToast("Username должен быть длиннее");
-
-    return;
-  }
-
-
-  user = {
-
-    name:name,
-
-    username:username,
-
-    id:"NOVA-" + Math.floor(
-      100000 + Math.random()*900000
-    ),
-
-    createdAt:new Date().toLocaleDateString("ru-RU")
-
-  };
-
-
-  localStorage.setItem(
-    "nova_user",
-    JSON.stringify(user)
-  );
-
-  localStorage.setItem(
-    "nova_balance",
-    balance
-  );
-
-
-  showToast("🎉 Аккаунт создан!");
-
-  setTimeout(()=>{
-
-    showScreen("home");
-    updateUI();
-
-  },700);
-
-}
-
-
-/* =========================
-   UI
-========================= */
-
-function updateUI(){
-
-  if(!user) return;
-
-
-  document.getElementById("balance")
-    .textContent = balance.toFixed(2);
-
-
-  const letter =
-    user.name.charAt(0).toUpperCase();
-
-
-  document.getElementById("headerAvatar")
-    .textContent = letter;
-
-  document.getElementById("profileAvatar")
-    .textContent = letter;
-
-
-  document.getElementById("profileName")
-    .textContent = user.name;
-
-  document.getElementById("profileUsername")
-    .textContent = "@" + user.username;
-
-
-  document.getElementById("statBalance")
-    .textContent = balance.toFixed(0);
-
-  document.getElementById("statItems")
-    .textContent = inventory.length;
-
-
-  const level =
-    Math.floor(xp / 100) + 1;
-
-  const currentXP =
-    xp % 100;
-
-
-  document.getElementById("statLevel")
-    .textContent = level;
-
-  document.getElementById("levelText")
-    .textContent = level;
-
-  document.getElementById("xpText")
-    .textContent = xp;
-
-  document.getElementById("xpFill")
-    .style.width = currentXP + "%";
-
-}
-
-
-/* =========================
-   SCREENS
-========================= */
-
-function showScreen(id){
-
-  document.querySelectorAll(".screen")
-    .forEach(el => el.classList.remove("active"));
-
-  document.getElementById(id)
-    .classList.add("active");
-
-}
-
-
-/* =========================
-   PAGES
-========================= */
-
-const pages = {
-
-  messenger:{
-    icon:"💬",
-    title:"Messenger",
-    description:"Общайся с пользователями NOVA.",
-    products:[]
-  },
-
-  marketplace:{
-    icon:"🛍️",
-    title:"Marketplace",
-    description:"Покупай цифровые предметы за NOVA.",
-    products:[
-      ["🎨","NOVA Avatar",50],
-      ["✨","Premium Badge",150],
-      ["🚀","Rocket Pack",250],
-      ["💜","Purple Theme",500]
-    ]
-  },
-
-  gifts:{
-    icon:"🎁",
-    title:"Gifts",
-    description:"Покупай цифровые подарки.",
-    products:[
-      ["🌹","Rose",25],
-      ["💜","Purple Heart",75],
-      ["🎂","Birthday Gift",150],
-      ["🚀","Rocket Gift",300]
-    ]
-  },
-
-  stars:{
-    icon:"⭐",
-    title:"Stars",
-    description:"Внутренняя система Stars NOVA.",
-    products:[
-      ["⭐","10 Stars",10],
-      ["⭐","50 Stars",45],
-      ["⭐","100 Stars",80],
-      ["🌟","500 Stars",350]
-    ]
-  },
-
-  collectibles:{
-    icon:"💎",
-    title:"Collectibles",
-    description:"Редкие цифровые предметы NOVA.",
-    products:[
-      ["💎","NOVA Diamond",400],
-      ["👑","Golden Crown",750],
-      ["🐉","NOVA Dragon",1200],
-      ["🪐","Galaxy",2000]
-    ]
-  }
-
-};
-
-
-/* =========================
-   OPEN PAGE
-========================= */
-
-function openPage(name){
-
-  const page = pages[name];
-
-  if(!page) return;
-
-
-  showScreen("content");
-
-
-  document.getElementById("pageIcon")
-    .textContent = page.icon;
-
-  document.getElementById("pageTitle")
-    .textContent = page.title;
-
-  document.getElementById("pageDescription")
-    .textContent = page.description;
-
-
-  document.getElementById("inventory")
-    .innerHTML = "";
-
-  document.getElementById("history")
-    .innerHTML = "";
-
-
-  renderProducts(page.products);
-
-
-  window.scrollTo(0,0);
-
-  haptic();
-
-}
-
-
-/* =========================
-   PRODUCTS
-========================= */
-
-function renderProducts(products){
-
-  const container =
-    document.getElementById("products");
-
-  container.innerHTML = "";
-
-
-  products.forEach(item=>{
-
-    const icon = item[0];
-    const name = item[1];
-    const price = item[2];
-
-
-    const div =
-      document.createElement("div");
-
-    div.className = "product";
-
-
-    div.innerHTML = `
-
-      <div class="product-left">
-
-        <div class="product-icon">
-          ${icon}
-        </div>
-
-        <div>
-
-          <div class="product-name">
-            ${name}
-          </div>
-
-          <div class="product-price">
-            ${price} NOVA
-          </div>
+            <button
+                class="buy"
+                onclick="buyProduct('${name}',${price},'${icon}')">
+                Buy
+            </button>
 
         </div>
 
-      </div>
+        `;
 
-      <button class="buy">
-        Купить
-      </button>
-
-    `;
-
-
-    div.querySelector(".buy")
-      .onclick = ()=>buyItem(
-        name,
-        icon,
-        price
-      );
-
-
-    container.appendChild(div);
-
-  });
-
+        marketPrices[index+"_old"]=price;
+    });
 }
 
 
@@ -1283,55 +1080,140 @@ function renderProducts(products){
    BUY
 ========================= */
 
-function buyItem(name,icon,price){
+function buyProduct(name,price,icon){
 
-  if(balance < price){
+    balance-=price;
 
-    showToast("❌ Недостаточно NOVA");
+    inventory.push({
+        name:name,
+        icon:icon,
+        buyPrice:price,
+        boughtAt:Date.now()
+    });
 
-    return;
-  }
+    xp+=Math.max(
+        5,
+        Math.floor(price/50)
+    );
 
+    save();
 
-  balance -= price;
+    alert(
+        `Куплено!\n\n${icon} ${name}\nЦена: ${price} NOVA\n\nБаланс: ${balance} NOVA`
+    );
 
-
-  inventory.push({
-
-    name:name,
-
-    icon:icon,
-
-    date:new Date().toLocaleDateString("ru-RU")
-
-  });
-
-
-  historyData.unshift({
-
-    name:"Покупка: " + name,
-
-    icon:icon,
-
-    amount:-price,
-
-    date:new Date().toLocaleString("ru-RU")
-
-  });
+    updateBalance();
+    updateProfile();
+    renderInventory();
+}
 
 
-  xp += 25;
+/* =========================
+   GIFTS
+========================= */
+
+function renderGifts(){
+
+    const list=
+        document.getElementById("giftsList");
+
+    if(!list) return;
+
+    list.innerHTML="";
+
+    gifts.forEach(item=>{
+
+        list.innerHTML+=productHTML(
+            item[0],
+            item[1],
+            item[2]
+        );
+
+    });
+}
 
 
-  saveData();
+/* =========================
+   STARS
+========================= */
 
-  updateUI();
+function renderStars(){
+
+    const list=
+        document.getElementById("starsList");
+
+    if(!list) return;
+
+    list.innerHTML="";
+
+    stars.forEach(item=>{
+
+        list.innerHTML+=productHTML(
+            item[0],
+            item[1],
+            item[2]
+        );
+
+    });
+}
 
 
-  showToast("✅ Предмет добавлен в инвентарь");
+/* =========================
+   COLLECTIBLES
+========================= */
 
-  haptic();
+function renderCollectibles(){
 
+    const list=
+        document.getElementById("collectiblesList");
+
+    if(!list) return;
+
+    list.innerHTML="";
+
+    collectibles.forEach(item=>{
+
+        list.innerHTML+=productHTML(
+            item[0],
+            item[1],
+            item[2]
+        );
+
+    });
+}
+
+
+function productHTML(name,icon,price){
+
+    return `
+
+    <div class="product">
+
+        <div class="product-icon">
+            ${icon}
+        </div>
+
+        <div class="product-info">
+
+            <div class="product-name">
+                ${name}
+            </div>
+
+            <div class="product-price">
+                ${price.toLocaleString()} NOVA
+            </div>
+
+        </div>
+
+        <button
+            class="buy"
+            onclick="buyProduct('${name}',${price},'${icon}')">
+            Buy
+        </button>
+
+    </div>
+
+    `;
 }
 
 
@@ -1339,68 +1221,129 @@ function buyItem(name,icon,price){
    INVENTORY
 ========================= */
 
-function openInventory(){
+function renderInventory(){
 
-  showScreen("content");
+    const list=
+        document.getElementById("inventoryList");
 
+    if(!list) return;
 
-  document.getElementById("pageIcon")
-    .textContent = "🎒";
+    if(inventory.length===0){
 
-  document.getElementById("pageTitle")
-    .textContent = "Инвентарь";
+        list.innerHTML=`
+            <div class="empty">
+                📦<br><br>
+                Инвентарь пуст.<br>
+                Купи что-нибудь на рынке.
+            </div>
+        `;
 
-  document.getElementById("pageDescription")
-    .textContent =
-    "Все приобретённые тобой предметы.";
+        return;
+    }
 
+    list.innerHTML="";
 
-  document.getElementById("products")
-    .innerHTML = "";
+    inventory.forEach((item,index)=>{
 
-  document.getElementById("history")
-    .innerHTML = "";
+        list.innerHTML+=`
 
+        <div class="inventory-item">
 
-  const container =
-    document.getElementById("inventory");
+            <div class="product-icon">
+                ${item.icon}
+            </div>
 
-  container.innerHTML = "";
+            <div class="product-info">
 
+                <div class="product-name">
+                    ${item.name}
+                </div>
 
-  if(inventory.length === 0){
+                <div class="product-category">
+                    Куплено за
+                    ${item.buyPrice.toLocaleString()} NOVA
+                </div>
 
-    container.innerHTML = `
-      <div class="empty">
-        🎒<br><br>
-        Инвентарь пока пуст
-      </div>
-    `;
+            </div>
 
-    return;
-  }
+            <button
+                class="sell"
+                onclick="sellItem(${index})">
+                Sell
+            </button>
 
-
-  inventory.forEach(item=>{
-
-    container.innerHTML += `
-
-      <div class="item">
-
-        <div class="item-icon">
-          ${item.icon}
         </div>
 
-        <div class="item-name">
-          ${item.name}
-        </div>
+        `;
+    });
+}
 
-      </div>
 
-    `;
+/* =========================
+   SELL
+========================= */
 
-  });
+function sellItem(index){
 
+    const item=inventory[index];
+
+    /*
+       Продажа происходит по случайной
+       рыночной цене.
+
+       Она может быть выше цены покупки,
+       поэтому пользователь получает прибыль.
+
+       Или ниже — тогда получает убыток.
+    */
+
+    const multiplier =
+        0.70 + Math.random()*0.70;
+
+    const sellPrice=
+        Math.max(
+            1,
+            Math.round(
+                item.buyPrice*multiplier
+            )
+        );
+
+    const profit=
+        sellPrice-item.buyPrice;
+
+    balance+=sellPrice;
+
+    inventory.splice(index,1);
+
+    xp+=10;
+
+    save();
+
+    let result;
+
+    if(profit>=0){
+
+        result=
+            `🟢 ПРИБЫЛЬ +${profit} NOVA`;
+
+    }else{
+
+        result=
+            `🔴 УБЫТОК ${profit} NOVA`;
+
+    }
+
+    alert(
+        `Продажа\n\n`+
+        `${item.icon} ${item.name}\n`+
+        `Куплено: ${item.buyPrice} NOVA\n`+
+        `Продано: ${sellPrice} NOVA\n\n`+
+        result
+    );
+
+    updateBalance();
+    updateProfile();
+    renderInventory();
 }
 
 
@@ -1408,118 +1351,32 @@ function openInventory(){
    PROFILE
 ========================= */
 
-function openProfile(){
+function updateProfile(){
 
-  showScreen("profile");
+    document.getElementById("profileBalance").textContent=
+        balance.toLocaleString()+" NOVA";
 
-  updateUI();
+    document.getElementById("itemCount").textContent=
+        inventory.length;
 
-  window.scrollTo(0,0);
+    document.getElementById("xp").textContent=xp;
 
-  haptic();
+    const currentLevel=
+        Math.floor(xp/100)+1;
 
-}
+    document.getElementById("level").textContent=
+        currentLevel;
 
+    if(balance<0){
 
-/* =========================
-   HISTORY
-========================= */
+        document.getElementById("profileBalance")
+            .className="negative";
 
-function openHistory(){
+    }else{
 
-  showScreen("content");
-
-
-  document.getElementById("pageIcon")
-    .textContent="🕐";
-
-  document.getElementById("pageTitle")
-    .textContent="История";
-
-  document.getElementById("pageDescription")
-    .textContent="История твоих операций.";
-
-
-  document.getElementById("products")
-    .innerHTML="";
-
-  document.getElementById("inventory")
-    .innerHTML="";
-
-
-  const container =
-    document.getElementById("history");
-
-  container.innerHTML="";
-
-
-  if(historyData.length===0){
-
-    container.innerHTML=`
-      <div class="empty">
-        🕐<br><br>
-        История пока пустая
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  historyData.forEach(item=>{
-
-    container.innerHTML += `
-
-      <div class="history-item">
-
-        <div class="history-left">
-
-          <div class="history-icon">
-            ${item.icon}
-          </div>
-
-          <div>
-
-            <div class="history-name">
-              ${item.name}
-            </div>
-
-            <div class="history-date">
-              ${item.date}
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="minus">
-          ${item.amount} NOVA
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-}
-
-
-/* =========================
-   HOME
-========================= */
-
-function goHome(){
-
-  showScreen("home");
-
-  updateUI();
-
-  window.scrollTo(0,0);
-
-  haptic();
-
+        document.getElementById("profileBalance")
+            .className="positive";
+    }
 }
 
 
@@ -1527,84 +1384,54 @@ function goHome(){
    SAVE
 ========================= */
 
-function saveData(){
+function save(){
 
-  localStorage.setItem(
-    "nova_balance",
-    balance
-  );
+    localStorage.setItem(
+        "nova_balance",
+        balance
+    );
 
-  localStorage.setItem(
-    "nova_inventory",
-    JSON.stringify(inventory)
-  );
+    localStorage.setItem(
+        "nova_inventory",
+        JSON.stringify(inventory)
+    );
 
-  localStorage.setItem(
-    "nova_history",
-    JSON.stringify(historyData)
-  );
+    localStorage.setItem(
+        "nova_xp",
+        xp
+    );
 
-  localStorage.setItem(
-    "nova_xp",
-    xp
-  );
-
+    localStorage.setItem(
+        "nova_prices",
+        JSON.stringify(marketPrices)
+    );
 }
 
 
 /* =========================
-   NAV
+   MARKET AUTO UPDATE
 ========================= */
 
-function activeNav(button){
+/*
+   Каждые 30 секунд рынок
+   полностью пересчитывает цены.
+*/
 
-  document.querySelectorAll(".nav")
-    .forEach(btn=>{
-      btn.classList.remove("active");
-    });
-
-  button.classList.add("active");
-
-}
-
-
-/* =========================
-   HAPTIC
-========================= */
-
-function haptic(){
-
-  if(tg.HapticFeedback){
-
-    tg.HapticFeedback
-      .impactOccurred("light");
-
-  }
-
-}
+setInterval(
+    updateMarketPrices,
+    30000
+);
 
 
-/* =========================
-   TOAST
-========================= */
+/*
+   Первое небольшое обновление
+   после запуска.
+*/
 
-function showToast(text){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent=text;
-
-  toast.classList.add("show");
-
-
-  setTimeout(()=>{
-
-    toast.classList.remove("show");
-
-  },1800);
-
-}
+setTimeout(
+    updateMarketPrices,
+    5000
+);
 
 </script>
 
