@@ -1,291 +1,439 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>NOVA Wallet</title>
+<title>NOVA Wallet</title>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top right, #263a7a 0%, transparent 35%),
-        radial-gradient(circle at bottom left, #371f67 0%, transparent 35%),
-        #080b16;
-      color: #fff;
-      padding: 20px;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: white;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(126, 45, 255, .35), transparent 32%),
+    radial-gradient(circle at 0% 50%, rgba(82, 25, 160, .25), transparent 35%),
+    #07050d;
+  padding: 18px 16px 100px;
+}
 
-    .app {
-      max-width: 520px;
-      margin: 0 auto;
-    }
+.app {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+}
 
-    .header {
-      padding: 15px 5px 25px;
-    }
+/* HEADER */
 
-    .logo {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px 22px;
+}
 
-    .subtitle {
-      margin-top: 6px;
-      color: #9da6bd;
-      font-size: 15px;
-    }
+.logo {
+  font-size: 31px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+}
 
-    .balance {
-      padding: 24px;
-      border-radius: 24px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(20px);
-      margin-bottom: 22px;
-    }
+.logo span {
+  color: #a855f7;
+}
 
-    .balance-label {
-      color: #9da6bd;
-      font-size: 14px;
-    }
+.profile {
+  width: 43px;
+  height: 43px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #8b5cf6, #5b21b6);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, .25);
+  font-size: 21px;
+}
 
-    .balance-value {
-      margin-top: 8px;
-      font-size: 36px;
-      font-weight: 800;
-    }
+/* BALANCE */
 
-    .balance-currency {
-      font-size: 17px;
-      color: #9da6bd;
-      margin-left: 5px;
-    }
+.balance {
+  position: relative;
+  overflow: hidden;
+  padding: 25px;
+  border-radius: 27px;
+  margin-bottom: 18px;
+  background:
+    linear-gradient(145deg, rgba(132, 55, 255, .32), rgba(34, 14, 58, .75));
+  border: 1px solid rgba(168, 85, 247, .35);
+  box-shadow:
+    0 15px 45px rgba(82, 27, 140, .2),
+    inset 0 1px rgba(255,255,255,.08);
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.balance::after {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  right: -70px;
+  top: -80px;
+  border-radius: 50%;
+  background: rgba(168, 85, 247, .22);
+  filter: blur(15px);
+}
 
-    .card {
-      min-height: 130px;
-      padding: 20px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.08);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform .15s ease, background .15s ease;
-      cursor: pointer;
-    }
+.balance-label {
+  position: relative;
+  z-index: 2;
+  color: #c4b5d8;
+  font-size: 13px;
+}
 
-    .card:active {
-      transform: scale(.96);
-      background: rgba(255,255,255,.13);
-    }
+.balance-value {
+  position: relative;
+  z-index: 2;
+  margin-top: 7px;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
 
-    .icon {
-      font-size: 30px;
-    }
+.currency {
+  font-size: 16px;
+  color: #c084fc;
+  margin-left: 5px;
+}
 
-    .title {
-      font-size: 16px;
-      font-weight: 700;
-    }
+/* QUICK BUTTONS */
 
-    .description {
-      margin-top: 4px;
-      color: #8f98ad;
-      font-size: 12px;
-    }
+.quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 22px;
+}
 
-    .page {
-      display: none;
-    }
+.quick button {
+  border: 1px solid rgba(168,85,247,.22);
+  border-radius: 17px;
+  padding: 14px;
+  color: white;
+  background: rgba(255,255,255,.055);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
 
-    .page.active {
-      display: block;
-    }
+.quick button:active {
+  transform: scale(.97);
+  background: rgba(168,85,247,.15);
+}
 
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 11px 16px;
-      margin-bottom: 20px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.08);
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+/* SECTION */
 
-    .section {
-      padding: 25px;
-      border-radius: 24px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.08);
-    }
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 3px 12px;
+}
 
-    .section-icon {
-      font-size: 50px;
-      margin-bottom: 15px;
-    }
+.section-heading h2 {
+  margin: 0;
+  font-size: 19px;
+}
 
-    .section-title {
-      font-size: 25px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
+.section-heading span {
+  color: #9d8bab;
+  font-size: 12px;
+}
 
-    .section-text {
-      color: #9da6bd;
-      line-height: 1.5;
-      font-size: 14px;
-    }
+/* CARDS */
 
-    .action {
-      width: 100%;
-      border: 0;
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 16px;
-      background: #fff;
-      color: #080b16;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
 
-    .action:active {
-      transform: scale(.98);
-    }
+.card {
+  min-height: 137px;
+  padding: 17px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.045);
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+  cursor: pointer;
+  transition: .15s;
+}
 
-    .footer {
-      text-align: center;
-      color: #697289;
-      font-size: 12px;
-      padding: 28px 0 10px;
-    }
-  </style>
+.card:active {
+  transform: scale(.96);
+  background: rgba(168,85,247,.12);
+}
+
+.icon {
+  font-size: 29px;
+  margin-bottom: 18px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.card-description {
+  margin-top: 4px;
+  color: #8f849d;
+  font-size: 11px;
+}
+
+/* PAGES */
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.back {
+  border: 0;
+  color: #d8b4fe;
+  background: rgba(168,85,247,.1);
+  padding: 11px 15px;
+  border-radius: 14px;
+  font-weight: 700;
+  margin-bottom: 17px;
+  cursor: pointer;
+}
+
+.page-box {
+  padding: 21px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(168,85,247,.15);
+}
+
+.page-icon {
+  font-size: 45px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 900;
+  margin-top: 10px;
+}
+
+.page-description {
+  color: #9d91aa;
+  line-height: 1.5;
+  margin-top: 7px;
+  font-size: 13px;
+}
+
+/* PRODUCTS */
+
+.products {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.product-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-icon {
+  font-size: 30px;
+}
+
+.product-name {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.product-price {
+  color: #b87cff;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.buy {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 13px;
+  background: linear-gradient(135deg, #a855f7, #6d28d9);
+  color: white;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.buy:active {
+  transform: scale(.94);
+}
+
+/* BOTTOM MENU */
+
+.bottom {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  max-width: 500px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  border-radius: 22px;
+  background: rgba(18, 11, 27, .92);
+  border: 1px solid rgba(168,85,247,.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.45);
+}
+
+.nav {
+  border: 0;
+  padding: 9px 3px;
+  border-radius: 16px;
+  background: transparent;
+  color: #81758e;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nav-icon {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 3px;
+}
+
+.nav.active {
+  color: #d8b4fe;
+  background: rgba(168,85,247,.13);
+}
+
+/* TOAST */
+
+.toast {
+  position: fixed;
+  z-index: 200;
+  left: 50%;
+  bottom: 92px;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+  padding: 12px 17px;
+  border-radius: 15px;
+  background: #21132f;
+  border: 1px solid rgba(168,85,247,.3);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  transition: .25s;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- ГЛАВНАЯ -->
-  <div id="home" class="page active">
+<!-- HOME -->
 
-    <div class="header">
-      <div class="logo">NOVA</div>
-      <div class="subtitle">Твоя цифровая экосистема</div>
-    </div>
+<div id="home" class="page active">
 
-    <div class="balance">
-      <div class="balance-label">Баланс</div>
-
-      <div class="balance-value">
-        0.00
-        <span class="balance-currency">NOVA</span>
-      </div>
-    </div>
-
-    <div class="grid">
-
-      <div class="card" onclick="openPage('messenger')">
-        <div class="icon">💬</div>
-        <div>
-          <div class="title">Messenger</div>
-          <div class="description">Общение</div>
-        </div>
-      </div>
-
-      <div class="card" onclick="openPage('marketplace')">
-        <div class="icon">🛍️</div>
-        <div>
-          <div class="title">Marketplace</div>
-          <div class="description">Покупки</div>
-        </div>
-      </div>
-
-      <div class="card" onclick="openPage('gifts')">
-        <div class="icon">🎁</div>
-        <div>
-          <div class="title">Gifts</div>
-          <div class="description">Подарки</div>
-        </div>
-      </div>
-
-      <div class="card" onclick="openPage('stars')">
-        <div class="icon">⭐</div>
-        <div>
-          <div class="title">Stars</div>
-          <div class="description">Telegram Stars</div>
-        </div>
-      </div>
-
-      <div class="card" onclick="openPage('collectibles')">
-        <div class="icon">💎</div>
-        <div>
-          <div class="title">Collectibles</div>
-          <div class="description">Digital Collectibles</div>
-        </div>
-      </div>
-
-      <div class="card" onclick="openPage('wallet')">
-        <div class="icon">💰</div>
-        <div>
-          <div class="title">Wallet</div>
-          <div class="description">Кошелёк</div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="footer">
-      NOVA Wallet
-    </div>
-
+  <div class="header">
+    <div class="logo">NOVA<span>.</span></div>
+    <div class="profile">👤</div>
   </div>
 
+  <div class="balance">
+    <div class="balance-label">Твой баланс</div>
+    <div class="balance-value">
+      <span id="balance">1000.00</span>
+      <span class="currency">NOVA</span>
+    </div>
+  </div>
 
-  <!-- СТРАНИЦА -->
-  <div id="content" class="page">
+  <div class="quick">
+    <button onclick="openPage('wallet')">💰 Кошелёк</button>
+    <button onclick="openPage('stars')">⭐ Stars</button>
+  </div>
 
-    <button class="back" onclick="goHome()">← Назад</button>
+  <div class="section-heading">
+    <h2>Сервисы NOVA</h2>
+    <span>6 разделов</span>
+  </div>
 
-    <div class="section">
+  <div class="grid">
 
-      <div class="section-icon" id="pageIcon">💬</div>
+    <div class="card" onclick="openPage('messenger')">
+      <div class="icon">💬</div>
+      <div class="card-title">Messenger</div>
+      <div class="card-description">Общение</div>
+    </div>
 
-      <div class="section-title" id="pageTitle">
-        Messenger
-      </div>
+    <div class="card" onclick="openPage('marketplace')">
+      <div class="icon">🛍️</div>
+      <div class="card-title">Marketplace</div>
+      <div class="card-description">Магазин</div>
+    </div>
 
-      <div class="section-text" id="pageText">
-        Раздел NOVA Messenger.
-      </div>
+    <div class="card" onclick="openPage('gifts')">
+      <div class="icon">🎁</div>
+      <div class="card-title">Gifts</div>
+      <div class="card-description">Подарки</div>
+    </div>
 
-      <button class="action" onclick="showMessage()">
-        🚀 Скоро будет доступно
-      </button>
+    <div class="card" onclick="openPage('stars')">
+      <div class="icon">⭐</div>
+      <div class="card-title">Stars</div>
+      <div class="card-description">Telegram Stars</div>
+    </div>
 
+    <div class="card" onclick="openPage('collectibles')">
+      <div class="icon">💎</div>
+      <div class="card-title">Collectibles</div>
+      <div class="card-description">Коллекции</div>
+    </div>
+
+    <div class="card" onclick="openPage('wallet')">
+      <div class="icon">💰</div>
+      <div class="card-title">Wallet</div>
+      <div class="card-description">Финансы</div>
     </div>
 
   </div>
@@ -293,98 +441,334 @@
 </div>
 
 
+<!-- CONTENT -->
+
+<div id="content" class="page">
+
+  <button class="back" onclick="goHome()">← Назад</button>
+
+  <div class="page-box">
+
+    <div class="page-icon" id="pageIcon">🛍️</div>
+
+    <div class="page-title" id="pageTitle">
+      Marketplace
+    </div>
+
+    <div class="page-description" id="pageDescription">
+      Покупай цифровые товары в экосистеме NOVA.
+    </div>
+
+    <div id="products" class="products"></div>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom">
+
+  <button class="nav active" onclick="goHome(); setActive(this)">
+    <span class="nav-icon">⌂</span>
+    Главная
+  </button>
+
+  <button class="nav" onclick="openPage('marketplace'); setActive(this)">
+    <span class="nav-icon">🛍️</span>
+    Магазин
+  </button>
+
+  <button class="nav" onclick="openPage('gifts'); setActive(this)">
+    <span class="nav-icon">🎁</span>
+    Gifts
+  </button>
+
+  <button class="nav" onclick="openPage('wallet'); setActive(this)">
+    <span class="nav-icon">💰</span>
+    Wallet
+  </button>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
 <script>
 
-  const tg = window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
 
-  tg.ready();
-  tg.expand();
+tg.ready();
+tg.expand();
 
 
-  const pages = {
+/* BALANCE */
 
-    messenger: {
-      icon: "💬",
-      title: "Messenger",
-      text: "Общайся с другими пользователями NOVA Wallet. Здесь появится полноценный Messenger."
-    },
+let balance = Number(localStorage.getItem("nova_balance"));
 
-    marketplace: {
-      icon: "🛍️",
-      title: "Marketplace",
-      text: "Покупай и продавай цифровые товары внутри экосистемы NOVA."
-    },
+if (isNaN(balance)) {
+  balance = 1000;
+  localStorage.setItem("nova_balance", balance);
+}
 
-    gifts: {
-      icon: "🎁",
-      title: "Gifts",
-      text: "Отправляй подарки друзьям и получай уникальные цифровые подарки."
-    },
+updateBalance();
 
-    stars: {
-      icon: "⭐",
-      title: "Stars",
-      text: "Раздел Telegram Stars. Здесь будет отображаться твой баланс и операции со Stars."
-    },
 
-    collectibles: {
-      icon: "💎",
-      title: "Collectibles",
-      text: "Коллекционные цифровые предметы NOVA. Здесь будут отображаться твои коллекции."
-    },
+function updateBalance() {
+  document.getElementById("balance").textContent =
+    balance.toFixed(2);
+}
 
-    wallet: {
-      icon: "💰",
-      title: "Wallet",
-      text: "Твой NOVA Wallet. Управляй балансом и операциями внутри экосистемы."
+
+/* PAGES */
+
+const pages = {
+
+  messenger: {
+    icon: "💬",
+    title: "Messenger",
+    description: "Общайся с пользователями NOVA. Здесь появится полноценный Messenger.",
+    products: []
+  },
+
+  marketplace: {
+    icon: "🛍️",
+    title: "Marketplace",
+    description: "Покупай цифровые товары внутри экосистемы NOVA.",
+    products: [
+      ["🎨", "NOVA Avatar", 50],
+      ["✨", "Premium Badge", 150],
+      ["🚀", "Rocket Pack", 250],
+      ["💜", "Purple Theme", 500]
+    ]
+  },
+
+  gifts: {
+    icon: "🎁",
+    title: "Gifts",
+    description: "Выбирай подарок и отправляй его пользователю.",
+    products: [
+      ["🌹", "Rose", 25],
+      ["💜", "Purple Heart", 75],
+      ["🎂", "Birthday Gift", 150],
+      ["🚀", "Rocket Gift", 300]
+    ]
+  },
+
+  stars: {
+    icon: "⭐",
+    title: "Stars",
+    description: "Раздел Stars. Здесь можно будет работать со Stars внутри NOVA.",
+    products: [
+      ["⭐", "10 Stars", 10],
+      ["⭐", "50 Stars", 45],
+      ["⭐", "100 Stars", 80],
+      ["🌟", "500 Stars", 350]
+    ]
+  },
+
+  collectibles: {
+    icon: "💎",
+    title: "Collectibles",
+    description: "Цифровые коллекционные предметы NOVA.",
+    products: [
+      ["💎", "NOVA Diamond", 400],
+      ["👑", "Golden Crown", 750],
+      ["🐉", "NOVA Dragon", 1200],
+      ["🪐", "Galaxy", 2000]
+    ]
+  },
+
+  wallet: {
+    icon: "💰",
+    title: "Wallet",
+    description: "Управляй своим балансом NOVA.",
+    products: [
+      ["💳", "Пополнить +100 NOVA", -100],
+      ["💳", "Пополнить +500 NOVA", -500],
+      ["💳", "Пополнить +1000 NOVA", -1000]
+    ]
+  }
+
+};
+
+
+/* OPEN PAGE */
+
+function openPage(name) {
+
+  const page = pages[name];
+
+  if (!page) return;
+
+  document.getElementById("home").classList.remove("active");
+  document.getElementById("content").classList.add("active");
+
+  document.getElementById("pageIcon").textContent = page.icon;
+  document.getElementById("pageTitle").textContent = page.title;
+  document.getElementById("pageDescription").textContent = page.description;
+
+  renderProducts(page.products);
+
+  window.scrollTo(0, 0);
+
+  haptic();
+
+}
+
+
+/* PRODUCTS */
+
+function renderProducts(products) {
+
+  const container = document.getElementById("products");
+
+  container.innerHTML = "";
+
+  products.forEach((item) => {
+
+    const icon = item[0];
+    const name = item[1];
+    const price = item[2];
+
+    const div = document.createElement("div");
+
+    div.className = "product";
+
+    let priceText;
+
+    if (price < 0) {
+      priceText = "+" + Math.abs(price) + " NOVA";
+    } else {
+      priceText = price + " NOVA";
     }
 
-  };
+    div.innerHTML = `
+      <div class="product-left">
+        <div class="product-icon">${icon}</div>
+
+        <div>
+          <div class="product-name">${name}</div>
+          <div class="product-price">${priceText}</div>
+        </div>
+      </div>
+
+      <button class="buy">
+        ${price < 0 ? "Пополнить" : "Купить"}
+      </button>
+    `;
+
+    div.querySelector(".buy").onclick = function() {
+      buyItem(name, price);
+    };
+
+    container.appendChild(div);
+
+  });
+
+}
 
 
-  function openPage(pageName) {
+/* BUY */
 
-    const page = pages[pageName];
+function buyItem(name, price) {
 
-    if (!page) return;
+  if (price < 0) {
 
-    document.getElementById("home").classList.remove("active");
-    document.getElementById("content").classList.add("active");
+    balance += Math.abs(price);
 
-    document.getElementById("pageIcon").textContent = page.icon;
-    document.getElementById("pageTitle").textContent = page.title;
-    document.getElementById("pageText").textContent = page.text;
+    localStorage.setItem("nova_balance", balance);
 
-    if (tg.HapticFeedback) {
-      tg.HapticFeedback.impactOccurred("light");
-    }
+    updateBalance();
 
-    window.scrollTo(0, 0);
+    showToast("💜 Баланс пополнен");
+
+    haptic();
+
+    return;
   }
 
 
-  function goHome() {
+  if (balance < price) {
 
-    document.getElementById("content").classList.remove("active");
-    document.getElementById("home").classList.add("active");
-
-    if (tg.HapticFeedback) {
-      tg.HapticFeedback.impactOccurred("light");
-    }
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function showMessage() {
+    showToast("❌ Недостаточно NOVA");
 
     if (tg.showAlert) {
-      tg.showAlert("Этот раздел пока находится в разработке 🚀");
-    } else {
-      alert("Этот раздел пока находится в разработке 🚀");
+      tg.showAlert("Недостаточно NOVA для покупки.");
     }
 
+    return;
   }
+
+
+  balance -= price;
+
+  localStorage.setItem("nova_balance", balance);
+
+  updateBalance();
+
+  showToast("✅ Покупка совершена");
+
+  haptic();
+
+}
+
+
+/* HOME */
+
+function goHome() {
+
+  document.getElementById("content").classList.remove("active");
+  document.getElementById("home").classList.add("active");
+
+  window.scrollTo(0, 0);
+
+  haptic();
+
+}
+
+
+/* HAPTIC */
+
+function haptic() {
+
+  if (tg.HapticFeedback) {
+    tg.HapticFeedback.impactOccurred("light");
+  }
+
+}
+
+
+/* TOAST */
+
+function showToast(text) {
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = text;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
+
+}
+
+
+/* NAV */
+
+function setActive(button) {
+
+  document.querySelectorAll(".nav")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+}
 
 </script>
 
